@@ -1,0 +1,23 @@
+.fi-sidebar-nav {
+    max-width: 250px;
+    background: yellow;
+}
+.fi-sidebar {
+    max-width: 250px !important;
+    background: yellow;
+}
+
+.parent-category-row {
+    background-color: #f3f4f6 !important; /* bg-gray-100 */
+}
+
+/* Опционально: делаем текст в этой строке синим или жирным */
+.parent-category-row td {
+    font-weight: 700 !important;
+}
+
+/* Убираем стандартный hover, чтобы он не перекрывал наш цвет, или настраиваем его */
+.parent-category-row:hover {
+    background-color: #e5e7eb !important; /* чуть темнее при наведении */
+}
+

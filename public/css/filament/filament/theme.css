@@ -1,0 +1,34 @@
+.fi-sidebar-nav {
+    max-width: 250px;
+}
+.fi-sidebar {
+    max-width: 250px !important;
+}
+
+.parent-category-row {
+    background-color: #ffb900 !important; /* bg-gray-100 */
+}
+
+/* Опционально: делаем текст в этой строке синим или жирным */
+.parent-category-row td {
+    font-weight: 700 !important;
+}
+
+/* Убираем стандартный hover, чтобы он не перекрывал наш цвет, или настраиваем его */
+.parent-category-row:hover {
+    background-color: #e5e7eb !important; /* чуть темнее при наведении */
+}
+
+/* Класс для ячейки дочерней категории */
+.child-category-indent {
+    padding-left: 3rem !important; /* Сдвиг вправо */
+    position: relative;
+}
+
+/* Добавим иконку стрелочки перед текстом для красоты */
+.child-category-indent::before {
+    content: '└';
+    position: absolute;
+    left: 1rem;
+    color: #9ca3af; /* серый цвет */
+}
