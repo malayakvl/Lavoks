@@ -44,7 +44,6 @@ class CategoriesTable
             ])
             ->actions([ // ВИКОРИСТОВУЄМО actions ЗАМІСТЬ recordActions
                 \Filament\Tables\Actions\EditAction::make()
-                    ->label('ААААААА')
                     ->icon('heroicon-m-pencil-square')
                     ->color('success'), // ОСЬ ТЕПЕР ВІН ЗАЗЕЛЕНІЄ!
 

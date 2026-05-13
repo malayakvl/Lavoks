@@ -21,7 +21,27 @@ class LeatherResource extends Resource
 //    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
     protected static string|BackedEnum|null $navigationIcon = Heroicon::LightBulb;
 
-//    protected static string|null|\UnitEnum $navigationGroup = 'Характеристики';    protected static ?string $recordTitleAttribute = 'Leather';
+//    protected static string|null|\UnitEnum $navigationGroup = 'Характеристики';    protected static ?string $recordTitleAttribute = 'Типи шкіри';
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Типи шкіри';
+    }
+
+    public static function getBreadcrumb(): string
+    {
+        return 'Типи шкіри';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Типи шкіри';
+    }
+
+    public static function getModelLabel(): string
+    {
+        return 'Типи шкіри';
+    }
 
     public static function form(Schema $schema): Schema
     {

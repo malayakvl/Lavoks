@@ -3,7 +3,7 @@
 namespace App\Services\Import\Pipelines;
 
 use App\Services\Import\CategoryImportService;
-//use App\Services\Import\CategoryTreeService;
+use App\Services\Import\CategoryTreeService;
 use App\Services\Import\CategoryImportUaLangService;
 use App\Services\Import\CategoryImportRuLangService;
 use App\Services\Import\CategoryImportImageService;

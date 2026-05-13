@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Categories;
 
 use App\Filament\Resources\Categories\Pages\CreateCategory;
+use App\Filament\Resources\Categories\Pages\EditCategory;
 use App\Filament\Resources\Categories\Pages\ListCategories;
 use App\Filament\Resources\Categories\Schemas\CategoryForm;
 use App\Models\Category;
@@ -102,22 +103,6 @@ class CategoryResource extends Resource
             ])
             ->recordActions([
                 \Filament\Actions\EditAction::make()
-                    ->mutateRecordDataUsing(function ($record, array $data) {
-
-                        $record->load('translations');
-
-                        foreach ($record->translations as $translation) {
-                            $locale = $translation->locale;
-
-                            $data["title_{$locale}"] = $translation->title;
-                            $data["slug_{$locale}"] = $translation->slug;
-                            $data["description_{$locale}"] = $translation->description;
-                            $data["meta_title_{$locale}"] = $translation->meta_title;
-                            $data["meta_description_{$locale}"] = $translation->meta_description;
-                        }
-
-                        return $data;
-                    })
                     ->button()->label('Редагувати')->icon('heroicon-m-pencil-square')->color('success'),
                 \Filament\Actions\DeleteAction::make()->button()->label('Видалити')->icon('heroicon-m-trash')->color('danger'),
 
@@ -140,7 +125,7 @@ class CategoryResource extends Resource
         return [
             'index' => ListCategories::route('/'),
             'create' => CreateCategory::route('/create'),
-
+            'edit' => EditCategory::route('/{record}/edit'),
             'prices' => CategoryPrices::route('/{record}/prices'),
         ];
     }

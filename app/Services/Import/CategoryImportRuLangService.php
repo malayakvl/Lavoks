@@ -37,7 +37,7 @@ class CategoryImportRuLangService
 
     public function import(int $limit = 0): bool
     {
-        $sql = file_get_contents(storage_path('legacy/translations.sql'));
+        $sql = file_get_contents(storage_path('legacy/category_translations.sql'));
 
         preg_match_all('/\((.*?)\)/s', $sql, $matches);
 

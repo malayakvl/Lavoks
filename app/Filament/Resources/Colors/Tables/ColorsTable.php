@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Colors\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class ColorsTable
@@ -14,6 +15,12 @@ class ColorsTable
         return $table
             ->columns([
                 //
+                TextColumn::make('title')
+                    ->sortable()
+                    ->sortable(),
+                TextColumn::make('code')
+                    ->sortable()
+                    ->sortable(),
             ])
             ->filters([
                 //

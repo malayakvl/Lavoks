@@ -5,24 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class Category extends Model
+class Color extends Model
 {
     protected $fillable = [
-        'parent_id',
-        'active',
-        'position',
-        'in_bottom_menu',
-        'level',
-        'image',
-
-
-        'emoji',
-        'percent_change',
-        'fix_price',
-        'discount',
-
+        'code',
         'old_id',
-        'parent_old_id'
     ];
 
     /*
@@ -31,20 +18,10 @@ class Category extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function parent()
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Category::class, 'parent_id')
-            ->orderBy('position');
-    }
 
     public function translations()
     {
-        return $this->hasMany(CategoryTranslation::class);
+        return $this->hasMany(ColorTranslation::class);
     }
 
     /*
@@ -55,7 +32,7 @@ class Category extends Model
 
     public function currentTranslation()
     {
-        return $this->hasOne(CategoryTranslation::class)
+        return $this->hasOne(ColorTranslation::class)
             ->where('locale', app()->getLocale());
     }
 
@@ -75,35 +52,6 @@ class Category extends Model
         return $this->currentTranslation->slug ?? '';
     }
 
-    public function getDescriptionAttribute(): ?string
-    {
-        return $this->currentTranslation->description;
-    }
-
-    public function getMetaTitleAttribute(): ?string
-    {
-        return $this->currentTranslation->meta_title;
-    }
-
-    public function getMetaDescriptionAttribute(): ?string
-    {
-        return $this->currentTranslation->meta_description;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | TREE DISPLAY
-    |--------------------------------------------------------------------------
-    */
-
-    public function getTreeTitleAttribute(): string
-    {
-        if ($this->parent_id && $this->parent) {
-            return $this->parent->currentTranslation->title . " '{$this->title}'";
-        }
-
-        return $this->title;
-    }
 
     /*
     |--------------------------------------------------------------------------
@@ -116,7 +64,6 @@ class Category extends Model
         return parent::getEloquentQuery()
             ->with([
                 'translations',
-                'parent.translations',
             ]);
     }
 
@@ -128,11 +75,6 @@ class Category extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($category) {
-            $maxOrder = static::where('parent_id', $category->parent_id)
-                ->max('position') ?? 0;
 
-            $category->position = $maxOrder + 1;
-        });
     }
 }

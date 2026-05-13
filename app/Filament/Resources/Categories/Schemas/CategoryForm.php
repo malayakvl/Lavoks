@@ -15,6 +15,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
 use Illuminate\Support\HtmlString;
+use Visualbuilder\FilamentTinyEditor\TinyEditor;
 
 class CategoryForm
 {
@@ -147,35 +148,78 @@ class CategoryForm
                         ->schema([
                             TextInput::make('title_uk')
                                 ->required()
+                                ->label('Найменування')
                                 ->live(onBlur: true)
                                 ->afterStateUpdated(fn ($state, $set) => $set('slug_uk', static::makeSlug($state))),
                             TextInput::make('slug_uk')
                                 ->required()
                                 ->label('Slug')
                                 ->live(onBlur: true),
-                            RichEditor::make('description_uk')
-                                ->label('Description')
-                                ->columnSpanFull(),
-                            TextInput::make('meta_title_uk'),
-                            Textarea::make('meta_keywords_uk'),
-                            TextInput::make('product_meta_title_uk'),
-                            Textarea::make('product_meta_description_uk'),
-                            Textarea::make('meta_description_uk'),
+//                            RichEditor::make('description_uk')
+//                                ->label('Опис')
+//                                ->columnSpanFull()
+//                                ->toolbarButtons([
+//                                    'blockquote',
+//                                    'bold',
+//                                    'bulletList',
+//                                    'codeBlock',
+//                                    'h2',
+//                                    'h3',
+//                                    'italic',
+//                                    'link',
+//                                    'orderedList',
+//                                    'redo',
+//                                    'strike',
+//                                    'underline',
+//                                    'undo',
+//                                ])
+//                                ->hintAction(
+//                                    Action::make('youtube')
+//                                        ->label('YouTube iframe')
+//                                        ->icon('heroicon-o-video-camera')
+//                                        ->form([
+//                                            TextInput::make('iframe')
+//                                                ->label('Iframe code')
+//                                                ->required(),
+//                                        ])
+//                                        ->action(function ($data, $set, $get) {
+//                                            $content = $get('description_uk') ?? '';
+//
+//                                            $set(
+//                                                'description_uk',
+//                                                $content . "\n" . $data['iframe']
+//                                            );
+//                                        })
+//                                ),
+                            TinyEditor::make('description_uk')
+                                ->label('Опис')
+                                ->columnSpanFull()
+                                ->profile('default'),
+                            TextInput::make('meta_title_uk')->label('Meta Title'),
+                            Textarea::make('meta_keywords_uk')->label('Meta Keywords'),
+                            Textarea::make('meta_description_uk')->label('Meta Description'),
+                            TextInput::make('product_meta_title_uk')->label('Product Meta Title'),
+                            Textarea::make('product_meta_description_uk')->label('Product Meta Description'),
                         ]),
 
                     Tab::make('RU')
                         ->schema([
                             TextInput::make('title_ru')
                                 ->required()
+                                ->label('Наименование')
                                 ->live(onBlur: true)
                                 ->afterStateUpdated(fn ($state, $set) => $set('slug_ru', static::makeSlug($state))),
                             TextInput::make('slug_ru')
                                 ->required()
                                 ->label('Slug')
                                 ->live(onBlur: true),
-                            RichEditor::make('description_ru')
-                                ->label('Description')
-                                ->columnSpanFull(),
+//                            RichEditor::make('description_ru')
+//                                ->label('Description')
+//                                ->columnSpanFull(),
+                            TinyEditor::make('description_ru')
+                                ->label('Описание')
+                                ->columnSpanFull()
+                                ->profile('default'),
                             TextInput::make('meta_title_ru'),
                             Textarea::make('meta_keywords_ru'),
                             TextInput::make('product_meta_title_ru'),

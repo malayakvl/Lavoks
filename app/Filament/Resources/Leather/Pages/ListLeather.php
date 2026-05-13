@@ -10,6 +10,16 @@ class ListLeather extends ListRecords
 {
     protected static string $resource = LeatherResource::class;
 
+    public function getTitle(): string
+    {
+        return 'Типи шкіри';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Типи шкіри';
+    }
+
     protected function getHeaderActions(): array
     {
         return [

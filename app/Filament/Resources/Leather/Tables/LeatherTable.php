@@ -4,7 +4,8 @@ namespace App\Filament\Resources\Leather\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class LeatherTable
@@ -13,13 +14,28 @@ class LeatherTable
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('image')
+                    ->label('')
+                    ->disk('public')
+                    ->state(fn ($record) => $record->image)
+                    ->width(90)
+                    ->height(75)
+                    ->extraImgAttributes([
+                        'style' => 'object-fit: cover; border-radius: 4px;',
+                    ]),
+
+                TextColumn::make('title')
+                    ->label('Назва')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                \Filament\Actions\EditAction::make()
+                    ->button()->label('Редагувати')->icon('heroicon-m-pencil-square')->color('success'),
+                \Filament\Actions\DeleteAction::make()->button()->label('Видалити')->icon('heroicon-m-trash')->color('danger'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
