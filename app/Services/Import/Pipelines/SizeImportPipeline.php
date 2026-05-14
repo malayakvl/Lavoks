@@ -2,10 +2,7 @@
 
 namespace App\Services\Import\Pipelines;
 
-use App\Services\Import\ColorImportService;
-use App\Services\Import\ColorImportUaLangService;
-use App\Services\Import\ColorImportRuLangService;
-use App\Services\SizeImportService;
+use App\Services\Import\SizeImportService;
 
 class SizeImportPipeline
 {

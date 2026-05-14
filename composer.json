@@ -11,6 +11,7 @@
         "intervention/image": "^4.0",
         "laravel/framework": "^13.7",
         "laravel/tinker": "^3.0",
+        "mews/purifier": "^3.4",
         "visualbuilder/filament-tinyeditor": "^5.0"
     },
     "require-dev": {

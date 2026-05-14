@@ -23,6 +23,12 @@ class CategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
 
+//    public static function getTable(Table $table): Table
+//    {
+//        return $table
+//            ->defaultSort('position')
+//            ->reorderable('position');
+//    }
     public static function getNavigationLabel(): string
     {
         return __('filament.navigation.categories');
@@ -112,7 +118,8 @@ class CategoryResource extends Resource
                     ->color('warning') // 'warning' — это оранжевый/золотой, 'info' — синий
                     ->button()
                     ->url(fn ($record) => static::getUrl('prices', ['record' => $record])),
-            ]);
+            ])->defaultSort('position')
+            ->reorderable('position');
     }
 
     public static function getRelations(): array

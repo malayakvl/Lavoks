@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Import;
 
 use App\Models\Size;
+use function App\Services\mb_strtolower;
 
 class SizeImportService
 {

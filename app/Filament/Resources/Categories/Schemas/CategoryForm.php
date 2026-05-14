@@ -194,12 +194,17 @@ class CategoryForm
                             TinyEditor::make('description_uk')
                                 ->label('Опис')
                                 ->columnSpanFull()
-                                ->profile('default'),
+                                ->profile('default')
+                                ->options([
+                                    'toolbar_sticky' => false,
+                                    'toolbar_mode' => 'wrap',
+                                    'toolbar_groups' => false,
+                                ]),
                             TextInput::make('meta_title_uk')->label('Meta Title'),
                             Textarea::make('meta_keywords_uk')->label('Meta Keywords'),
                             Textarea::make('meta_description_uk')->label('Meta Description'),
-                            TextInput::make('product_meta_title_uk')->label('Product Meta Title'),
-                            Textarea::make('product_meta_description_uk')->label('Product Meta Description'),
+                            TextInput::make('product_meta_title_uk')->label('Продукт Meta Title'),
+                            Textarea::make('product_meta_description_uk')->label('Продукт Meta Description'),
                         ]),
 
                     Tab::make('RU')
@@ -216,15 +221,27 @@ class CategoryForm
 //                            RichEditor::make('description_ru')
 //                                ->label('Description')
 //                                ->columnSpanFull(),
+//                            TinyEditor::make('description_ru')
+//                                ->label('Описание')
+//                                ->options([
+//                                    'toolbar_mode' => 'wrap',
+//                                ])
+//                                ->columnSpanFull()
+//                                ->profile('default'),
                             TinyEditor::make('description_ru')
                                 ->label('Описание')
                                 ->columnSpanFull()
-                                ->profile('default'),
-                            TextInput::make('meta_title_ru'),
-                            Textarea::make('meta_keywords_ru'),
-                            TextInput::make('product_meta_title_ru'),
-                            Textarea::make('product_meta_description_ru'),
-                            Textarea::make('meta_description_ru'),
+                                ->profile('default')
+                                ->options([
+                                    'toolbar_sticky' => false,
+                                    'toolbar_mode' => 'wrap',
+                                    'toolbar_groups' => false,
+                                ]),
+                            TextInput::make('meta_title_ru')->label('Meta Title'),
+                            Textarea::make('meta_keywords_ru')->label('Meta Keywords'),
+                            Textarea::make('meta_description_ru')->label('Meta Description'),
+                            TextInput::make('product_meta_title_ru')->label('Продукт Meta Title'),
+                            Textarea::make('product_meta_description_ru')->label('Продукт Meta Description'),
                         ]),
                 ]),
         ]);
