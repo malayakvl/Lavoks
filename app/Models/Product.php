@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -43,4 +45,36 @@ class Product extends Model
         'old_price' => 'float',
         'rating' => 'float',
     ];
+
+    public function translations(): HasMany
+    {
+        return $this->hasMany(ProductTranslation::class);
+    }
+
+    public function title()
+    {
+        return $this->translations()->where('locale', app()->getLocale())->first()?->title
+            ?? $this->translations()->first()?->title
+            ?? '';
+    }
+
+    public function colors(): BelongsToMany
+    {
+        return $this->belongsToMany(Color::class, 'product_colors');
+    }
+
+    public function leathers(): BelongsToMany
+    {
+        return $this->belongsToMany(Leather::class, 'product_leathers');
+    }
+
+    public function genders(): BelongsToMany
+    {
+        return $this->belongsToMany(Gender::class, 'product_genders');
+    }
+
+    public function sizes(): BelongsToMany
+    {
+        return $this->belongsToMany(Size::class, 'product_sizes');
+    }
 }

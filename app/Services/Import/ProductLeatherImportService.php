@@ -2,13 +2,11 @@
 
 namespace App\Services\Import;
 
+use App\Models\Leather;
 use App\Models\Product;
-use App\Models\Category;
-//use function App\Services\dd;
-//use function App\Services\Import\str_ends_with;
-//use function App\Services\Import\str_starts_with;
+use App\Models\ProductLeather;
 
-class ProductImportService
+class ProductLeatherImportService
 {
     public function import(int $limit = 0)
     {
@@ -36,57 +34,24 @@ class ProductImportService
             $oldId = (int)($data[0] ?? 0);
             $oldId = $data[0];
 
-            $code = $data[1];
-            $name = $data[2];
-            $categoryOldId = $data[3];
+            $leatherId = $data[12];
 
-            $active = (bool)$data[5];
-            $createdAt = $data[6];
-            $price = $data[10];
-            $mpn = $data[11];
-            $categoryId = $data[12];
-
-            $gtin = $data[28];
-            $mpn2 = $data[29];
-
-            $updatedAt = $data[30];
-
-            $sortOrder = $data[31];
-
-            $rating = $data[41];
-            $category = Category::where('old_id', $categoryOldId)->first();
-//dd($category->id);exit;
             if (!$oldId) {
                 continue;
             }
 
-            $product = Product::updateOrCreate(
+            $product = Product::where('old_id', $oldId)->first();
+            $leather = Leather::where('old_id', $leatherId)->first();
+//            dd($product->id);exit;
+
+            ProductLeather::updateOrCreate(
                 [
-                    'old_id' => $oldId,
+                    'product_id' => $product?->id,
+                    'leather_id' => $leather?->id
                 ],
                 [
-                    'category_id' => $category?->id,
-
-                    'code' => $code,
-                    'gtin' => $gtin,
-                    'mpn' => $mpn ?? $mpn2,
-
-                    'price' => $price,
-                    'old_price' => null,
-
-                    'active' => (bool)$active,
-                    'popular' => (bool)$data[18],
-                    'is_new' => (bool)$data[19],
-                    'to_order' => (bool)$data[20],
-                    'is_absent' => (bool)$data[21],
-
-                    'rating' => $rating,
-                    'review_count' => 0,
-
-                    'sort_order' => $sortOrder,
-
-                    'created_at' => $createdAt,
-                    'updated_at' => $updatedAt,
+                    'product_id' => $product?->id,
+                    'leather_id' => $leather?->id,
                 ]
             );
 

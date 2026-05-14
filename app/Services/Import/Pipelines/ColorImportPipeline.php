@@ -5,6 +5,7 @@ namespace App\Services\Import\Pipelines;
 use App\Services\Import\ColorImportService;
 use App\Services\Import\ColorImportUaLangService;
 use App\Services\Import\ColorImportRuLangService;
+use App\Services\Import\ProductColorImportService;
 
 class ColorImportPipeline
 {
@@ -14,9 +15,12 @@ class ColorImportPipeline
 //        app(ColorImportService::class)->import();
 
         // 2. INSERT UA DATA
-//        app(ColorImportUaLangService::class)->import();
+        app(ColorImportUaLangService::class)->import();
 
         // 3. INSERT RU DATA
-        app(ColorImportRuLangService::class)->import();
+//        app(ColorImportRuLangService::class)->import();
+
+        // 4. INSERT PRODUCT-COLOR RELATIONSHIPS
+//        app(ProductColorImportService::class)->import();
     }
 }

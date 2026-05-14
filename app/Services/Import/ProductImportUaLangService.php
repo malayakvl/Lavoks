@@ -3,18 +3,45 @@
 namespace App\Services\Import;
 
 use App\Models\Product;
-use App\Models\Category;
-//use function App\Services\dd;
-//use function App\Services\Import\str_ends_with;
-//use function App\Services\Import\str_starts_with;
+use App\Models\ProductTranslation;
+use Illuminate\Support\Str;
 
-class ProductImportService
+class ProductImportUaLangService
 {
+    public function makeSlug(string $text): string
+    {
+        $map = [
+            'ш' => 'sh', 'щ' => 'sch', 'ч' => 'ch', 'ж' => 'zh', 'ю' => 'yu',
+            'я' => 'ya', 'є' => 'ye', 'ї' => 'yi', 'і' => 'i', 'ь' => '',
+        ];
+        $text = mb_strtolower($text);
+        $text = strtr($text, $map);
+        return Str::slug($text);
+    }
+
+    private function cleanDescription(?string $description): ?string
+    {
+        if (!$description) {
+            return null;
+        }
+
+        // Убираем экранированные кавычки
+        $description = str_replace('\\"', '"', $description);
+        
+        // Заменяем \n\n на переносы строк
+        $description = str_replace('\\n', "\n", $description);
+        
+        // Убираем лишние пробелы в начале и конце
+        $description = trim($description);
+        
+        return $description;
+    }
+
     public function import(int $limit = 0)
     {
         $sql = file_get_contents(storage_path('legacy/products.sql'));
 
-        // 1. вырезаем только VALUES блок (без regex)
+        // 1. вырезаем только VALUES блок
         $start = strpos($sql, 'VALUES');
         if ($start === false) {
             throw new \Exception("VALUES block not found");
@@ -23,73 +50,46 @@ class ProductImportService
         $block = substr($sql, $start + 6);
         $block = rtrim(trim($block), ';');
 
-        // 2. парсим строки (каждый row = (...))
+        // 2. парсим строки
         $rows = $this->extractRows($block);
 
         if ($limit > 0) {
             $rows = array_slice($rows, 0, $limit);
         }
-
         foreach ($rows as $i => $row) {
-
             $data = $this->parseRow($row);
-            $oldId = (int)($data[0] ?? 0);
-            $oldId = $data[0];
 
-            $code = $data[1];
-            $name = $data[2];
-            $categoryOldId = $data[3];
+            // Debug first 3 rows
+            if ($i < 3) {
+                \Log::info("Product Row {$i}: " . json_encode($data));
+            }
+            $oldProductId = (int)($data[0] ?? 0);
+            $product = Product::where('old_id', $oldProductId)->first();
 
-            $active = (bool)$data[5];
-            $createdAt = $data[6];
-            $price = $data[10];
-            $mpn = $data[11];
-            $categoryId = $data[12];
-
-            $gtin = $data[28];
-            $mpn2 = $data[29];
-
-            $updatedAt = $data[30];
-
-            $sortOrder = $data[31];
-
-            $rating = $data[41];
-            $category = Category::where('old_id', $categoryOldId)->first();
-//dd($category->id);exit;
-            if (!$oldId) {
+            if (!$oldProductId) {
                 continue;
             }
 
-            $product = Product::updateOrCreate(
+            if (!$product || !$product->id) {
+                \Log::error("Failed to find product with old_id: {$oldProductId}");
+                continue;
+            }
+//            dd($data[4]);exit;
+            ProductTranslation::updateOrCreate(
                 [
-                    'old_id' => $oldId,
+                    'product_id' => $product->id,
+                    'locale' => 'uk',
                 ],
                 [
-                    'category_id' => $category?->id,
+                    'title' => $data[2] ?? '',
+                    'description' => $this->cleanDescription($data[4] ?? null),
+                    'active' => true,
+                    'meta_title' => $data[13] ?? '',
+                    'meta_description' => $data[15] ?? '',
+                    'meta_keyword' => $data[14] ?? '',
 
-                    'code' => $code,
-                    'gtin' => $gtin,
-                    'mpn' => $mpn ?? $mpn2,
-
-                    'price' => $price,
-                    'old_price' => null,
-
-                    'active' => (bool)$active,
-                    'popular' => (bool)$data[18],
-                    'is_new' => (bool)$data[19],
-                    'to_order' => (bool)$data[20],
-                    'is_absent' => (bool)$data[21],
-
-                    'rating' => $rating,
-                    'review_count' => 0,
-
-                    'sort_order' => $sortOrder,
-
-                    'created_at' => $createdAt,
-                    'updated_at' => $updatedAt,
                 ]
             );
-
         }
 
         return true;
@@ -108,15 +108,12 @@ class ProductImportService
         $len = strlen($block);
 
         for ($i = 0; $i < $len; $i++) {
-
             $char = $block[$i];
 
-            // обработка строк
             if ($char === "'" && ($i === 0 || $block[$i - 1] !== "\\")) {
                 $inString = !$inString;
             }
 
-            // открытие записи
             if ($char === '(' && !$inString) {
                 if ($depth === 0) {
                     $current = '';
@@ -125,7 +122,6 @@ class ProductImportService
                 continue;
             }
 
-            // закрытие записи
             if ($char === ')' && !$inString) {
                 $depth--;
 
@@ -155,16 +151,13 @@ class ProductImportService
         $len = strlen($row);
 
         for ($i = 0; $i < $len; $i++) {
-
             $char = $row[$i];
 
-            // toggle string state
             if ($char === "'" && ($i === 0 || $row[$i - 1] !== "\\")) {
                 $inString = !$inString;
                 continue;
             }
 
-            // split only outside strings
             if ($char === ',' && !$inString) {
                 $result[] = $this->normalize($buffer);
                 $buffer = '';

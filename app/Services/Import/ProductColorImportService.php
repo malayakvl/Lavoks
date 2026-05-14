@@ -2,18 +2,15 @@
 
 namespace App\Services\Import;
 
+use App\Models\Color;
 use App\Models\Product;
-use App\Models\Category;
-//use function App\Services\dd;
-//use function App\Services\Import\str_ends_with;
-//use function App\Services\Import\str_starts_with;
+use App\Models\ProductColor;
 
-class ProductImportService
+class ProductColorImportService
 {
     public function import(int $limit = 0)
     {
         $sql = file_get_contents(storage_path('legacy/products.sql'));
-
         // 1. вырезаем только VALUES блок (без regex)
         $start = strpos($sql, 'VALUES');
         if ($start === false) {
@@ -30,66 +27,51 @@ class ProductImportService
             $rows = array_slice($rows, 0, $limit);
         }
 
+        // Маппинг old_id → new_id для цветов
+        $colorMap = Color::pluck('id', 'old_id')->toArray();
+
         foreach ($rows as $i => $row) {
 
             $data = $this->parseRow($row);
-            $oldId = (int)($data[0] ?? 0);
-            $oldId = $data[0];
+            $oldId = $data[0] ?? null;
 
-            $code = $data[1];
-            $name = $data[2];
-            $categoryOldId = $data[3];
-
-            $active = (bool)$data[5];
-            $createdAt = $data[6];
-            $price = $data[10];
-            $mpn = $data[11];
-            $categoryId = $data[12];
-
-            $gtin = $data[28];
-            $mpn2 = $data[29];
-
-            $updatedAt = $data[30];
-
-            $sortOrder = $data[31];
-
-            $rating = $data[41];
-            $category = Category::where('old_id', $categoryOldId)->first();
-//dd($category->id);exit;
             if (!$oldId) {
                 continue;
             }
 
-            $product = Product::updateOrCreate(
-                [
-                    'old_id' => $oldId,
-                ],
-                [
-                    'category_id' => $category?->id,
+            // Получаем продукт
+            $product = Product::where('old_id', $oldId)->first();
+            if (!$product) {
+                continue;
+            }
 
-                    'code' => $code,
-                    'gtin' => $gtin,
-                    'mpn' => $mpn ?? $mpn2,
+            // Получаем IDs цветов (колонка 17)
+            $colorIdsRaw = $data[17] ?? null;
+            if (!$colorIdsRaw) {
+                continue;
+            }
 
-                    'price' => $price,
-                    'old_price' => null,
+            // Парсим IDs: "1,13" или "11"
+            $oldColorIds = array_filter(array_map('intval', explode(',', $colorIdsRaw)));
 
-                    'active' => (bool)$active,
-                    'popular' => (bool)$data[18],
-                    'is_new' => (bool)$data[19],
-                    'to_order' => (bool)$data[20],
-                    'is_absent' => (bool)$data[21],
+            foreach ($oldColorIds as $oldColorId) {
+                // Маппим old_id → new_id
+                $newColorId = $colorMap[$oldColorId] ?? null;
+                if (!$newColorId) {
+                    continue;
+                }
 
-                    'rating' => $rating,
-                    'review_count' => 0,
-
-                    'sort_order' => $sortOrder,
-
-                    'created_at' => $createdAt,
-                    'updated_at' => $updatedAt,
-                ]
-            );
-
+                ProductColor::updateOrCreate(
+                    [
+                        'product_id' => $product->id,
+                        'color_id' => $newColorId,
+                    ],
+                    [
+                        'product_id' => $product->id,
+                        'color_id' => $newColorId,
+                    ]
+                );
+            }
         }
 
         return true;
