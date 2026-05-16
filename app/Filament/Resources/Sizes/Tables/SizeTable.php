@@ -22,6 +22,10 @@ class SizeTable
                 TextColumn::make('length')
                     ->label('Довжина')
                     ->sortable(),
+                TextColumn::make('format')
+                    ->label('Формат')
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('width')
                     ->label('Ширина')

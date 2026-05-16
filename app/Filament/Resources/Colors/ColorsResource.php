@@ -21,7 +21,7 @@ class ColorsResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSwatch;
 //    protected static string|null|\UnitEnum $navigationGroup = 'Характеристики';
-    protected static ?string $recordTitleAttribute = 'Кольори';
+    protected static ?int $navigationSort = 3;
 
     public static function getNavigationLabel(): string
     {

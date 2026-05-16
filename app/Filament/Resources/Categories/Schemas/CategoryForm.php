@@ -55,6 +55,17 @@ class CategoryForm
                 ->preload()
                 ->nullable(),
 
+            Select::make('size_id')
+                ->label('Розмір')
+                ->relationship(
+                    name: 'size',
+                    titleAttribute: 'normalized_value'
+                )
+                ->searchable()
+                ->preload()
+                ->nullable()
+                ->hint('Оберіть розмір для цієї категорії'),
+
 //            TextInput::make('emodzi')->label('Емодзи'),
             TextInput::make('emoji')
                 ->label('Емодзи')

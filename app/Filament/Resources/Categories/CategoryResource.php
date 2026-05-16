@@ -22,6 +22,7 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
+    protected static ?int $navigationSort = 1;
 
 //    public static function getTable(Table $table): Table
 //    {
@@ -48,7 +49,7 @@ class CategoryResource extends Resource
     {
         return $table
             ->modifyQueryUsing(fn ($query) => $query
-                ->with(['parent.translations', 'translations'])
+                ->with(['parent.translations', 'translations', 'size'])
                 ->select('*')
                 ->selectRaw("
         CASE
@@ -95,6 +96,11 @@ class CategoryResource extends Resource
                     ->label('Батьківська категорія')
                     ->placeholder('—')
                     ->getStateUsing(fn ($record) => $record->parent?->currentTranslation->title ?? '—'),
+
+                TextColumn::make('size.normalized_value')
+                    ->label('Розмір')
+                    ->placeholder('—')
+                    ->searchable(),
 
                 IconColumn::make('active')
                     ->label('Активна')

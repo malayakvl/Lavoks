@@ -28,4 +28,15 @@ class Size extends Model
         'active' => 'boolean',
         'is_structured' => 'boolean',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'size_id');
+    }
 }

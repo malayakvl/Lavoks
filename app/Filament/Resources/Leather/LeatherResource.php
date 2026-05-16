@@ -20,6 +20,7 @@ class LeatherResource extends Resource
 
 //    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
     protected static string|BackedEnum|null $navigationIcon = Heroicon::LightBulb;
+    protected static ?int $navigationSort = 4;
 
 //    protected static string|null|\UnitEnum $navigationGroup = 'Характеристики';    protected static ?string $recordTitleAttribute = 'Типи шкіри';
 

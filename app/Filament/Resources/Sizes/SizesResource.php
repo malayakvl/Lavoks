@@ -19,6 +19,7 @@ class SizesResource extends Resource
     protected static ?string $model = Size::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static ?int $navigationSort = 2;
 
     public static function getNavigationLabel(): string
     {

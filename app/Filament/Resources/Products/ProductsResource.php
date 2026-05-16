@@ -19,6 +19,7 @@ class ProductsResource extends Resource
     protected static ?string $model = Product::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
+    protected static ?int $navigationSort = 5;
 
     public static function getNavigationLabel(): string
     {

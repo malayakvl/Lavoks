@@ -39,6 +39,7 @@ class ProductForm
                                     });
                             })
                             ->searchable()
+                            ->live()
                             ->nullable(),
 
                         TextInput::make('code')
@@ -149,7 +150,25 @@ class ProductForm
                             ->schema([
                                 CheckboxList::make('sizes')
                                     ->label('Розміри')
-                                    ->relationship('sizes', 'normalized_value')
+                                    ->options(function ($get) {
+                                        $categoryId = $get('category_id');
+                                        
+                                        $query = Size::query()->where('active', true);
+                                        
+                                        // Если категория выбрана, фильтруем размеры по категории
+                                        if ($categoryId) {
+                                            $query->whereHas('categories', function ($q) use ($categoryId) {
+                                                $q->where('categories.id', $categoryId);
+                                            });
+                                        }
+                                        
+                                        return $query->get()->mapWithKeys(function ($size) {
+                                            return [$size->id => $size->normalized_value ?? $size->original_value];
+                                        });
+                                    })
+                                    ->saveRelationshipsUsing(function ($component, $state) {
+                                        $component->getRecord()->sizes()->sync($state ?? []);
+                                    })
                                     ->columns(4),
                             ]),
                     ])->columnSpan(2),

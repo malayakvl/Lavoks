@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\Size;
 
 class Category extends Model
 {
     protected $fillable = [
         'parent_id',
+        'size_id',
         'active',
         'position',
         'in_bottom_menu',
@@ -34,6 +36,11 @@ class Category extends Model
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function size()
+    {
+        return $this->belongsTo(Size::class, 'size_id');
     }
 
     public function children()
