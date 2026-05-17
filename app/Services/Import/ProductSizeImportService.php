@@ -2,11 +2,12 @@
 
 namespace App\Services\Import;
 
-use App\Models\Leather;
+use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductLeather;
+use App\Models\ProductSize;
+use App\Models\Size;
 
-class ProductLeatherImportService
+class ProductSizeImportService
 {
     public function import(int $limit = 0)
     {
@@ -41,17 +42,18 @@ class ProductLeatherImportService
             }
 
             $product = Product::where('old_id', $oldId)->first();
-            $leather = Leather::where('old_id', $leatherId)->first();
-//            dd($product->id);exit;
+            $category = Category::where('id', $product->category_id)->first();
+            $size = Size::where('id', $category->size_id)->first();
 
-            ProductLeather::updateOrCreate(
+
+            ProductSize::updateOrCreate(
                 [
                     'product_id' => $product?->id,
-                    'leather_id' => $leather?->id
+                    'size_id' => $size?->id
                 ],
                 [
                     'product_id' => $product?->id,
-                    'leather_id' => $leather?->id,
+                    'size_id' => $size?->id,
                 ]
             );
 

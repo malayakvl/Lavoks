@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Models\ProductTranslation;
 use Illuminate\Support\Str;
 
-class ProductImportUaLangService
+class ProductImportRuLangService
 {
     public function makeSlug(string $text): string
     {
@@ -39,7 +39,7 @@ class ProductImportUaLangService
 
     public function import(int $limit = 0)
     {
-        $sql = file_get_contents(storage_path('legacy/productsEnot.sql'));
+        $sql = file_get_contents(storage_path('legacy/product_translations.sql'));
 
         // 1. вырезаем только VALUES блок
         $start = strpos($sql, 'VALUES');
@@ -56,43 +56,62 @@ class ProductImportUaLangService
         if ($limit > 0) {
             $rows = array_slice($rows, 0, $limit);
         }
+
+        $imported = 0;
+
         foreach ($rows as $i => $row) {
             $data = $this->parseRow($row);
+//            dd($data);exit;
 
-            // Debug first 3 rows
-            if ($i < 3) {
-                \Log::info("Product Row {$i}: " . json_encode($data));
+            // data structure:
+            // 0: id
+            // 1: table_name ('products')
+            // 2: column_name ('name' or 'description')
+            // 3: foreign_key (old_id of product)
+            // 4: locale ('ru')
+            // 5: value (translation text)
+            // 6: created_at
+            // 7: updated_at
+
+            $oldProductId = (int)($data[3] ?? 0);
+            $columnName = $data[2] ?? '';
+            $value = $data[5] ?? '';
+
+            if (!$oldProductId || !$columnName) {
+                continue;
             }
-            $oldProductId = (int)($data[0] ?? 0);
+
+            // Find product by old_id
             $product = Product::where('old_id', $oldProductId)->first();
 
-            if (!$oldProductId) {
+            if (!$product) {
+                \Log::warning("Product with old_id {$oldProductId} not found for RU translation");
                 continue;
             }
-
-            if (!$product || !$product->id) {
-                \Log::error("Failed to find product with old_id: {$oldProductId}");
-                continue;
+            // Get or create translation
+            $translation = ProductTranslation::where('product_id', $product->id)
+                ->where('locale', 'ru')
+                ->first();
+            
+            if (!$translation) {
+                $translation = new ProductTranslation();
+                $translation->product_id = $product->id;
+                $translation->locale = 'ru';
+                $translation->title = ''; // Default value to satisfy NOT NULL
             }
-//            dd($data[4]);exit;
-            ProductTranslation::updateOrCreate(
-                [
-                    'product_id' => $product->id,
-                    'locale' => 'uk',
-                ],
-                [
-                    'title' => $data[2] ?? '',
-                    'description' => $this->cleanDescription($data[4] ?? null),
-                    'active' => true,
-                    'meta_title' => $data[13] ?? '',
-                    'meta_description' => $data[15] ?? '',
-                    'meta_keyword' => $data[14] ?? '',
 
-                ]
-            );
+            // Update the appropriate field
+            if ($columnName === 'name') {
+                $translation->title = $value;
+            } elseif ($columnName === 'description') {
+                $translation->description = $this->cleanDescription($value);
+            }
+
+            $translation->save();
+            $imported++;
         }
 
-        return true;
+        return $imported;
     }
 
     /**

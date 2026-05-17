@@ -14,6 +14,7 @@ class Product extends Model
         'old_id',
 
         'category_id',
+        'product_family_id',
 
         'code',
         'gtin',
@@ -32,7 +33,9 @@ class Product extends Model
         'review_count',
         'sort_order',
 
-        'old_id'
+        'old_id',
+        'main_image',
+        'slug'
     ];
 
     protected $casts = [
@@ -76,5 +79,15 @@ class Product extends Model
     public function sizes(): BelongsToMany
     {
         return $this->belongsToMany(Size::class, 'product_sizes');
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function productFamily()
+    {
+        return $this->belongsTo(ProductFamily::class);
     }
 }

@@ -40,6 +40,18 @@ class EditProduct extends EditRecord
             $data["meta_keywords_{$locale}"] = $translation->meta_keywords ?? '';
         }
 
+        // Load sizes relationship
+        $data['sizes'] = $this->record->sizes()->pluck('size_id')->toArray();
+
+        // Load colors relationship
+        $data['colors'] = $this->record->colors()->pluck('color_id')->toArray();
+
+        // Load leathers relationship
+        $data['leathers'] = $this->record->leathers()->pluck('leather_id')->toArray();
+
+        // Load genders relationship
+        $data['genders'] = $this->record->genders()->pluck('gender_id')->toArray();
+
         return $data;
     }
 

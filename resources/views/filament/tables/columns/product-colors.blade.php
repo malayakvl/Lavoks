@@ -19,7 +19,7 @@
                 width: 24px;
                 height: 24px;
                 border-radius: 6px;
-                border: 2px solid #9ca3af;
+                border: 1px solid #4a4c50;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.1);
                 background-color: {{ $color->code ?? '#ccc' }};
                 cursor: pointer;
