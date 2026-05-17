@@ -16,7 +16,7 @@ class ProductImportPipeline
     public function handle(): void
     {
         // 1. LOAD PRODUCTS
-//        app(ProductImportService::class)->import();
+        app(ProductImportService::class)->import();
 
         // 1.1 INSERT PRODUCTS PIVOT TABLES
 //        app(ProductLeatherImportService::class)->import();

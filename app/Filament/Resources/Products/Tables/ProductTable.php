@@ -8,7 +8,9 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Table;
 
 class ProductTable
@@ -61,6 +63,20 @@ class ProductTable
                     ->boolean(),
             ])
             ->filters([
+                Filter::make('code')
+                    ->form([
+                        TextInput::make('code')
+                            ->label('Код')
+                            ->placeholder('Пошук за кодом...'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when(
+                                $data['code'],
+                                fn ($query, $code) => $query->where('code', 'like', "%{$code}%"),
+                            );
+                    }),
+
                 SelectFilter::make('category_id')
                     ->label('Категорія')
                     ->options(function () {

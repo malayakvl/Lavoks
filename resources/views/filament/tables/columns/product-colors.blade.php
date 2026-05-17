@@ -16,8 +16,8 @@
             title="{{ $color->title ?? 'No title' }}"
             style="
                 display: inline-block;
-                width: 24px;
-                height: 24px;
+                width: 16px;
+                height: 16px;
                 border-radius: 6px;
                 border: 1px solid #4a4c50;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.1);

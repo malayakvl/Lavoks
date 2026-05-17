@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Color;
 use App\Models\Gender;
 use App\Models\Leather;
+use App\Models\Size;
 use App\Models\ProductFamily;
 use App\Models\ProductImage;
 use Illuminate\Support\Str;
@@ -15,7 +16,7 @@ class ProductImportService
 {
     public function import(int $limit = 0)
     {
-        $sql = file_get_contents(storage_path('legacy/productsEnot.sql'));
+        $sql = file_get_contents(storage_path('legacy/productsVyanot.sql'));
 
         // 1. вырезаем только VALUES блок (без regex)
         $start = strpos($sql, 'VALUES');
@@ -93,7 +94,6 @@ class ProductImportService
                     ['name' => $familyName]
                 );
             }
-            dd($family?->id);exit;
 
             $product = Product::updateOrCreate(
                 [
@@ -140,6 +140,15 @@ class ProductImportService
             if (!empty($genders)) {
                 $genderIds = Gender::whereIn('old_id', $genders)->pluck('id')->toArray();
                 $product->genders()->sync($genderIds);
+            }
+
+            // Create relationship for leather
+            if ($category->size_id) {
+                $size = Size::where('id', $category->size_id)->first();
+
+                if ($size) {
+                    $product->sizes()->sync([$size->id]);
+                }
             }
 
             // Create relationship for leather
