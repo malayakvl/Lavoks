@@ -30,7 +30,9 @@ class ProductTable
                     ->label('Назва')
                     ->state(fn ($record) => $record->title())
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->tooltip(fn ($record) => $record->title())
+                    ->extraAttributes(['class' => 'product-title-cell']),
 
                 TextColumn::make('code')
                     ->label('Код')

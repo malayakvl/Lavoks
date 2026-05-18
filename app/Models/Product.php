@@ -21,7 +21,7 @@ class Product extends Model
         'mpn',
 
         'price',
-        'old_price',
+        'base_price',
 
         'active',
         'popular',
@@ -48,6 +48,17 @@ class Product extends Model
         'old_price' => 'float',
         'rating' => 'float',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function ($product) {
+
+            if (empty($product->base_price)) {
+                $product->base_price = $product->price;
+            }
+
+        });
+    }
 
     public function translations(): HasMany
     {

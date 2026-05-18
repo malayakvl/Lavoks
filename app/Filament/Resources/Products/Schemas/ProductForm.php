@@ -92,8 +92,15 @@ class ProductForm
                             ->numeric()
                             ->nullable(),
 
+                        TextInput::make('base_price')
+                            ->label('Базова ціна')
+                            ->helperText('Використовується для масового оновлення цін')
+                            ->numeric()
+                            ->nullable(),
+
                         TextInput::make('old_price')
                             ->label('Стара ціна')
+                            ->helperText('Для відображення знижки')
                             ->numeric()
                             ->nullable(),
                     ])->columnSpan(1),

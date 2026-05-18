@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('mpn')->nullable();
 
             $table->decimal('price', 10, 2)->nullable();
-            $table->decimal('old_price', 10, 2)->nullable();
+            $table->decimal('base_price', 10, 2)->nullable();
 
             $table->boolean('active')->default(true);
 

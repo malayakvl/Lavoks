@@ -15,16 +15,15 @@ class CategoriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('parent_id')
-                    ->numeric()
+                TextColumn::make('parent.title')
+                    ->label('Батьківська категорія')
                     ->sortable(),
-                TextColumn::make('image')
-                    ->searchable(),
+                TextColumn::make('title')
+                    ->label('Назва')
+                    ->searchable()
+                    ->extraAttributes(['class' => 'category-title-cell']),
                 IconColumn::make('active')
                     ->boolean(),
-                TextColumn::make('position')
-                    ->numeric()
-                    ->sortable(),
                 IconColumn::make('in_bottom_menu')
                     ->boolean(),
                 TextColumn::make('level')

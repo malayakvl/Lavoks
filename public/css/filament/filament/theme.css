@@ -6,7 +6,7 @@
 }
 
 .parent-category-row {
-    background-color: #ffb900 !important; /* bg-gray-100 */
+    background-color: #f3f4f6 !important; /* bg-gray-100 */
 }
 
 /* Опционально: делаем текст в этой строке синим или жирным */
@@ -19,16 +19,73 @@
     background-color: #e5e7eb !important; /* чуть темнее при наведении */
 }
 
-/* Класс для ячейки дочерней категории */
-.child-category-indent {
-    padding-left: 3rem !important; /* Сдвиг вправо */
-    position: relative;
+/* Кастомные цвета для кнопок действий в таблицах */
+.fi-actions .fi-btn.color-success,
+.fi-table .fi-btn.color-success {
+    --color: #493fb7 !important;
+    --color-50: #f0eff9 !important;
+    --color-100: #e1dff3 !important;
+    --color-200: #c3bfe7 !important;
+    --color-300: #a59fda !important;
+    --color-400: #877fce !important;
+    --color-500: #493fb7 !important;
+    --color-600: #3d3599 !important;
+    --color-700: #312a7a !important;
+    --color-800: #251f5c !important;
+    --color-900: #19153d !important;
 }
 
-/* Добавим иконку стрелочки перед текстом для красоты */
-.child-category-indent::before {
-    content: '└';
-    position: absolute;
-    left: 1rem;
-    color: #9ca3af; /* серый цвет */
+.fi-actions .fi-btn.color-success:hover,
+.fi-table .fi-btn.color-success:hover {
+    background-color: #3d3599 !important;
 }
+
+/* Приглушенный красный для кнопки удаления */
+.fi-actions .fi-btn.color-danger,
+.fi-table .fi-btn.color-danger {
+    --color: #c0392b !important;
+    --color-50: #f8f0ef !important;
+    --color-100: #f1e1de !important;
+    --color-200: #e3c3bd !important;
+    --color-300: #d5a59c !important;
+    --color-400: #c7877b !important;
+    --color-500: #c0392b !important;
+    --color-600: #a13024 !important;
+    --color-700: #82271d !important;
+    --color-800: #631e16 !important;
+    --color-900: #44140f !important;
+}
+
+.fi-actions .fi-btn.color-danger:hover,
+.fi-table .fi-btn.color-danger:hover {
+    background-color: #a13024 !important;
+}
+
+/* Ограничение ширины колонки названия продукта */
+.product-title-cell {
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.product-title-cell .fi-ta-text-item-label {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Отступ для дочерних категорий в таблице */
+.child-category-indent {
+    padding-left: 40px;
+    max-width: 400px;
+    white-space: normal;
+
+}
+
+.child-category-indent .fi-ta-text-item-label {
+    padding-left: 15px;
+    border-left: 2px solid #e5e7eb;
+}
+

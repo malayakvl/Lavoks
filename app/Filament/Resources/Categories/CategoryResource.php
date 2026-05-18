@@ -93,7 +93,7 @@ class CategoryResource extends Resource
                     }),
 
                 TextColumn::make('parent.title')
-                    ->label('Батьківська категорія')
+                    ->label('Бать-ка категорія')
                     ->placeholder('—')
                     ->getStateUsing(fn ($record) => $record->parent?->currentTranslation->title ?? '—'),
 
@@ -106,11 +106,11 @@ class CategoryResource extends Resource
                     ->label('Активна')
                     ->boolean(),
 
-                TextColumn::make('position')
-                    ->label('Позиція')
-                    ->sortable(),
+//                TextColumn::make('position')
+//                    ->label('Позиція')
+//                    ->sortable(),
                 IconColumn::make('in_bottom_menu')
-                    ->label('В нижньому меню')
+                    ->label('Нижнє меню')
                     ->boolean(),
             ])
             ->recordActions([
