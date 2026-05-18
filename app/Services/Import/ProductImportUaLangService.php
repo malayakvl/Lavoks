@@ -39,7 +39,7 @@ class ProductImportUaLangService
 
     public function import(int $limit = 0)
     {
-        $sql = file_get_contents(storage_path('legacy/productsVyanot.sql'));
+        $sql = file_get_contents(storage_path('legacy/products.sql'));
 
         // 1. вырезаем только VALUES блок
         $start = strpos($sql, 'VALUES');

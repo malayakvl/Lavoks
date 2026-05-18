@@ -26,9 +26,9 @@ class ProductImportPipeline
 //        app(ProductSizeImportService::class)->import();
 
         // 2. INSERT UA DATA
-//        app(ProductImportUaLangService::class)->import();
+        app(ProductImportUaLangService::class)->import();
 
         // 3. INSERT RU DATA
-//        app(ProductImportRuLangService::class)->import();
+        app(ProductImportRuLangService::class)->import();
     }
 }
