@@ -40,7 +40,7 @@ class LeatherImportService
                 ['old_id' => $oldId],
                 [
                     'old_id' => $oldId,
-                    'image' => $oldId . '_default.jpg',
+                    'images' => $oldId . '_default.jpg',
                 ]
             );
         }

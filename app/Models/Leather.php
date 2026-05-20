@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 class Leather extends Model
 {
     protected $table = 'leathers';
-    
+
     protected $fillable = [
-        'image',
+        'images',
         'old_id',
     ];
 

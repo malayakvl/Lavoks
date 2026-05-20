@@ -49,7 +49,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | When Filament generates temporary URLs for previewing private files
-    | (file uploads, image columns, image entries, rich editor attachments,
+    | (file uploads, images columns, images entries, rich editor attachments,
     | etc.), this value controls how many minutes those URLs remain valid.
     |
     | The generated URL's expiry is rounded up to the end of the hour it

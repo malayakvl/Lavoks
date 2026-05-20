@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('emoji')->nullable()->after('image');
+            $table->string('emoji')->nullable()->after('images');
 
             $table->decimal('percent_change', 8, 2)->nullable()->after('emoji');
             $table->decimal('fix_price', 10, 2)->nullable()->after('percent_change');

@@ -14,7 +14,7 @@ class LeatherTable
     {
         return $table
             ->columns([
-                ImageColumn::make('image')
+                ImageColumn::make('images')
                     ->label('')
                     ->disk('public')
                     ->state(fn ($record) => $record->image)

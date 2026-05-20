@@ -15,7 +15,7 @@ class Category extends Model
         'position',
         'in_bottom_menu',
         'level',
-        'image',
+        'images',
 
 
         'emoji',

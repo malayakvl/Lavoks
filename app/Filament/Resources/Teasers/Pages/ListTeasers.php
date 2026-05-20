@@ -18,6 +18,11 @@ class ListTeasers extends ListRecords
         ];
     }
 
+    public function getTitle(): string
+    {
+        return 'Банери';
+    }
+
     public function getActions(): array
     {
         return [

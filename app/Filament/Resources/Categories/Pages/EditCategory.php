@@ -75,8 +75,8 @@ class EditCategory extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if (empty($data['image'])) {
-            unset($data['image']);
+        if (empty($data['images'])) {
+            unset($data['images']);
         }
 
         return $data;

@@ -116,15 +116,15 @@ class CategoryImportImageService
 
             // Создаем ресурс изображения
             $img = match ($mime) {
-                'image/jpeg' => imagecreatefromjpeg($sourcePath),
-                'image/png'  => imagecreatefrompng($sourcePath),
-                'image/gif'  => imagecreatefromgif($sourcePath),
-                'image/webp' => imagecreatefromwebp($sourcePath),
+                'images/jpeg' => imagecreatefromjpeg($sourcePath),
+                'images/png'  => imagecreatefrompng($sourcePath),
+                'images/gif'  => imagecreatefromgif($sourcePath),
+                'images/webp' => imagecreatefromwebp($sourcePath),
                 default      => null,
             };
 
             if (!$img) {
-                throw new \Exception("Unsupported image type: " . $mime);
+                throw new \Exception("Unsupported images type: " . $mime);
             }
 
             // Поддержка прозрачности

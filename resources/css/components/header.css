@@ -1,0 +1,585 @@
+
+header {
+    /*background: url(../../images/header/bg-header.jpg);*/
+    background: url(../../images/header/textura.jpg);
+    background-size: cover;
+    min-height: 200px;
+    border-radius: 0;
+}
+
+
+.NavigationMenuRoot {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    z-index: 1;
+    background: rgba(44, 28, 19, 0.4);
+    backdrop-filter: blur(4px);
+    border-top: 2px dashed rgba(212, 175, 55, 0.4);
+    border-bottom: 2px dashed rgba(212, 175, 55, 0.4);
+    padding: 12px 0;
+}
+
+.NavigationMenuRoot a {
+    color: #f5f5f3;
+    /*text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); !* Чтобы текст не терялся на коже *!*/
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+}
+
+.NavigationMenuRoot a:hover {
+    color: #d4af37; /* Золотой при наведении */
+}
+
+.NavigationMenuList {
+    display: flex;
+    /*justify-content: center;*/
+    padding: 4px;
+    list-style: none;
+    margin: 0;
+    font-size: 12px;
+}
+
+.NavigationMenuTrigger,
+.NavigationMenuLink {
+    padding: 8px 10px;
+    outline: none;
+    user-select: none;
+    font-weight: 500;
+    line-height: 1;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #fff;
+    font-family: 'Montserrat Alternates', 'Montserrat', sans-serif;
+}
+.NavigationMenuTrigger:focus,
+.NavigationMenuLink:focus {
+    box-shadow: 0 0 0 2px var(--violet-7);
+}
+.NavigationMenuTrigger:hover,
+.NavigationMenuLink:hover {
+    background-color: var(--violet-3);
+}
+
+.NavigationMenuTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2px;
+}
+
+.NavigationMenuLink {
+    display: block;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1;
+}
+
+
+.NavigationMenuContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    animation-duration: 250ms;
+    animation-timing-function: ease;
+    /*background:*/
+    /*    linear-gradient(*/
+    /*        135deg,*/
+    /*        rgba(255,255,255,.94),*/
+    /*        rgba(248,240,230,.94)*/
+    /*    );*/
+    /*backdrop-filter: blur(18px);*/
+
+}
+.NavigationMenuContent[data-motion="from-start"] {
+    animation-name: enterFromLeft;
+}
+.NavigationMenuContent[data-motion="from-end"] {
+    animation-name: enterFromRight;
+}
+.NavigationMenuContent[data-motion="to-start"] {
+    animation-name: exitToLeft;
+}
+.NavigationMenuContent[data-motion="to-end"] {
+    animation-name: exitToRight;
+}
+@media only screen and (min-width: 600px) {
+    .NavigationMenuContent {
+        width: 100%;
+    }
+}
+
+.NavigationMenuIndicator {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 10px;
+    top: 100%;
+    overflow: hidden;
+    z-index: 1;
+    transition:
+        width,
+        transform 250ms ease;
+}
+.NavigationMenuIndicator[data-state="visible"] {
+    animation: fadeIn 200ms ease;
+}
+.NavigationMenuIndicator[data-state="hidden"] {
+    animation: fadeOut 200ms ease;
+}
+
+.NavigationMenuViewport {
+    max-width: 1500px;
+    margin: 0 auto;
+    position: relative;
+    transform-origin: top center;
+    margin-top: 10px;
+    width: 100%;
+    /*border-radius: 6px;*/
+    overflow: hidden;
+    box-shadow:
+        hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+        hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+    height: var(--radix-navigation-menu-viewport-height);
+    transition:
+        width,
+        height,
+        300ms ease;
+}
+.NavigationMenuViewport[data-state="open"] {
+    animation: scaleIn 200ms ease;
+}
+.NavigationMenuViewport[data-state="closed"] {
+    animation: scaleOut 200ms ease;
+}
+.NavigationMenuContent {
+    backdrop-filter: blur(16px);
+}
+@media only screen and (min-width: 600px) {
+    .NavigationMenuViewport {
+        width: 100%;
+    }
+}
+
+.List {
+    display: grid;
+    padding: 16px 20px;
+    margin: 0;
+    list-style: none;
+
+    /* Твоя сочная текстура */
+    background: url(../../images/header/textura.jpg);
+    /*background-size: cover;*/
+    background-color: #88543c;
+    /*border-radius: 12px;*/
+    /*border: 1px solid rgba(212, 175, 55, 0.25);*/
+
+    /* Глубокие объемные тени */
+    /*box-shadow:*/
+    /*    inset 0 1px 2px rgba(255, 255, 255, 0.1),*/
+    /*    inset 0 -2px 6px rgba(0, 0, 0, 0.4),*/
+    /*    0 15px 35px rgba(27, 16, 9, 0.8),*/
+    /*    0 5px 15px rgba(0, 0, 0, 0.5);*/
+
+
+}
+
+/* Стилизация КНОПОК внутри выпадающего списка */
+.List button {
+    /* Жесткий сброс дефолтных стилей кнопки */
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0;
+    margin: 0;
+    text-align: left; /* Чтобы текст не центрировался, если кнопка широкая */
+    cursor: pointer;
+    width: 100%;
+
+    /* Шрифты и тиснение */
+    font-family: inherit;
+    color: rgba(245, 245, 243, 0.95);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    /* Эффект выдавленных букв */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+    transition: all 0.2s ease;
+}
+
+/* Стили для текста внутри тега span (если он есть, например .parent-menu) */
+.List button span {
+    transition: color 0.2s ease;
+}
+
+/* Эффект при наведении на кнопку (hover) или когда Radix держит её открытой (data-state="open") */
+.List button:hover,
+.List button[data-state="open"] {
+    color: #d4af37 !important; /* Красивое золото */
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.4); /* Неоновое подсвечивание букв */
+    transform: translateX(4px); /* Слегка сдвигаем вбок */
+}
+
+/* Дополнительно красим span внутри кнопки при ховере, если цвет застрял на нем */
+.List button:hover span,
+.List button[data-state="open"] span {
+    color: #d4af37 !important;
+}
+@media only screen and (min-width: 600px) {
+    .List.one {
+        width: 500px;
+        grid-template-columns: 0.75fr 1fr;
+    }
+    .List.two {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 18px;
+        align-items: stretch;
+    }
+}
+
+.ListItemLink {
+    display: block;
+    height: 100%;
+    outline: none;
+    text-decoration: none;
+    user-select: none;
+    /*transition: all .25s ease;*/
+}
+.ListItemLink:focus {
+    /*box-shadow: 0 0 0 2px var(--violet-7);*/
+}
+.ListItemLink:hover {
+    transform: translateY(-2px);
+    background: rgba(0,0,0,.03);
+}
+
+.ListItemHeading {
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #2d2d2d;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 40px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+}
+
+.ListItemImage {
+    width: 85px;
+    height: 70px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 10px;
+    /*border: 1px solid rgba(0,0,0,.05);*/
+    background: #f8f8f8;
+}
+
+.text-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.ListItemHeading {
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #2d2d2d;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+}
+
+
+.Callout {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--purple-9) 0%, var(--indigo-9) 100%);
+    /*border-radius: 6px;*/
+    padding: 25px;
+    text-decoration: none;
+    outline: none;
+    user-select: none;
+}
+.Callout:focus {
+    box-shadow: 0 0 0 2px var(--violet-7);
+}
+
+.CalloutHeading {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-top: 16px;
+    margin-bottom: 7px;
+}
+
+.CalloutText {
+    color: var(--mauve-4);
+    font-size: 14px;
+    line-height: 1.3;
+}
+
+.ViewportPosition {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    perspective: 2000px;
+    border: none !important;
+}
+
+.CaretDown {
+    position: relative;
+    color: var(--violet-10);
+    top: 1px;
+    transition: transform 250ms ease;
+}
+[data-state="open"] > .CaretDown {
+    transform: rotate(-180deg);
+}
+
+.Arrow {
+    position: relative;
+    top: 70%;
+    background-color: white;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    border-top-left-radius: 2px;
+}
+
+@keyframes enterFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(200px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes enterFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-200px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes exitToRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(200px);
+    }
+}
+
+@keyframes exitToLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-200px);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-30deg) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: rotateX(0deg) scale(1);
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        opacity: 1;
+        transform: rotateX(0deg) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: rotateX(-10deg) scale(0.95);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
+.NavigationMenuTrigger:hover,
+.NavigationMenuLink:hover {
+    background: rgba(255,255,255,.12);
+    color: #fff;
+}
+.ListItemTextNew {
+    font-weight: 500;
+    font-size: 13px;
+    /*text-transform: uppercase;*/
+    font-family: "Montserrat Alternates", sans-serif;
+    line-height: 1.4;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+}
+.ListItemText {
+    font-weight: 500;
+    font-size: 13px;
+    /*text-transform: uppercase;*/
+    font-family: "Montserrat Alternates", sans-serif
+}
+.parent-menu {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+}
+.image-menu-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 5px;
+    height: 100%;
+    min-height: 110px;
+    box-sizing: border-box;
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.4);
+    border-radius: 8px;
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.05);
+    transition: all .25s ease;
+}
+.ListItemLink:hover .image-menu-link {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,.92);
+    /*box-shadow:*/
+    /*    0 12px 24px rgba(0,0,0,.08);*/
+}
+.cart-button-block {
+    /*background: url(../../images/header/123.png);*/
+    /*background-repeat: no-repeat;*/
+    background-size: cover;
+    min-width: 200px;
+    height: 65px;
+    background: url('../../images/header/b-cart.png') no-repeat center;
+    background-size: cover;
+
+    /* 1. Скругляем сам HTML-блок точно так же, как скруглена кнопка на картинке */
+    border-radius: 24px;
+
+    /* 2. Обрезаем всё, что вылезает за пределы скругления (черные углы картинки) */
+    overflow: hidden;
+
+    /* 3. Теперь box-shadow ляжет идеально по форме скругленного блока */
+    box-shadow: 0 0 25px 8px rgba(212, 175, 55, 0.6);
+
+
+}
+.empty-cart {
+    position: absolute;
+    top: 16px;
+    left: 85px;
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+}
+.card-title-class { /* Замени на свой класс названия товара */
+    color: #000000; /* или твой цвет текста */
+
+    /* Хитрый трюк: сдвиг тени ровно на 1px вниз БЕЗ размытия (0px) */
+    text-shadow: 0 1px 0px rgba(255, 255, 255, 0.4);
+
+    /* Включаем чистое сглаживание на уровне субпикселей */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.image-div-cat {
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.ListItemImage {
+    display: block;
+}
+
+.ListItemTextNew {
+    margin: 0;
+    /*background-color: yellow;*/
+    display: inline-block;
+    /*margin-top: -40px;*/
+}
+
+
+.gold-social-icon {
+    width: 28px !important;
+    height: 28px !important;
+    object-fit: contain;
+    opacity: 0.7;
+    transition: all 0.2s ease-in-out; /* Тут кстати стояло 0.2ms — это слишком быстро, исправил на 0.2s */
+
+    /* ХОД КОНЕМ:
+       1. invert(1) перекрасит синий в оранжево-желтый.
+       2. brightness(0.8) приглушит ядовитость.
+       3. sepia(1) и saturate(3) превратят это в идеальное золото.
+       4. drop-shadow накладываем СТРОГО в конце. */
+    filter: invert(1) brightness(0.85) sepia(1) hue-rotate(10deg) saturate(3.5) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.6));
+}
+
+/* Эффект при наведении на ссылку-обертку */
+.group:hover .gold-social-icon {
+    opacity: 1;
+    /* При ховере делаем золото чуть светлее и благороднее */
+    filter: invert(1) brightness(1.0) sepia(1) hue-rotate(15deg) saturate(4) drop-shadow(0 1px 2px rgba(212, 175, 55, 0.4));
+}

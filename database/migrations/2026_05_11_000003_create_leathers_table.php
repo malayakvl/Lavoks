@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('leathers', function (Blueprint $table) {
             $table->id();
 
-            $table->string('image')->nullable()->unique()->default('default.jpg');
+            $table->string('images')->nullable()->unique()->default('default.jpg');
             $table->integer('old_id')->nullable();
 
             $table->timestamps();

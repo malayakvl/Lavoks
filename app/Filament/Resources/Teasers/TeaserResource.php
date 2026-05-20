@@ -18,9 +18,19 @@ class TeaserResource extends Resource
 {
     protected static ?string $model = Teaser::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Camera;
 
-    protected static ?string $recordTitleAttribute = 'image';
+    protected static ?string $recordTitleAttribute = 'images';
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Банери';
+    }
+
+    public static function getBreadcrumb(): string
+    {
+        return 'Банери';
+    }
 
     public static function form(Schema $schema): Schema
     {

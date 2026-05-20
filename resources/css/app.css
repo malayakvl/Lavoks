@@ -1,4 +1,23 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* tailwind entry (handled by Vite plugin) */
+@import "tailwindcss";
+
+
+
+@import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/colors/indigo.css";
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/purple.css";
+@import "@radix-ui/colors/violet.css";
+@import "@radix-ui/colors/blue.css";
+
+@import "components/header.css";
+
+
+body {
+    padding:0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
 

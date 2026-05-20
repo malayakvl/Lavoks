@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('teasers', function (Blueprint $table) {
             $table->id();
-            $table->string('image')->nullable();
+            $table->string('images')->nullable();
             $table->text('caption')->nullable();
             $table->integer('position')->nullable();
             $table->boolean('active')->default(true);

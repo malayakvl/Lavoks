@@ -40,7 +40,7 @@ class LeatherForm
                 ")),
 
                 // --- ЗАГРУЗКА И КРОП (90x75) ---
-                FileUpload::make('image')
+                FileUpload::make('images')
                     ->label('Оновити зображення')
                     ->image()
                     ->disk('public')

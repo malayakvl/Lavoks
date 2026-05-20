@@ -19,7 +19,7 @@ class TeasersTable
             ->reorderable('position')
             ->columns([
                 //
-                ImageColumn::make('image')
+                ImageColumn::make('images')
                     ->label('')
                     ->disk('public')
                     ->state(fn ($record) => $record->image)

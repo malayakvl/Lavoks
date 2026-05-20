@@ -12,9 +12,9 @@ class CategoryObserver
 {
     public function creating(Category $category)
     {
-        // В Filament поле называется просто 'image'
-        if (request()->hasFile('image')) {
-            $file = request()->file('image');
+        // В Filament поле называется просто 'images'
+        if (request()->hasFile('images')) {
+            $file = request()->file('images');
 
             // Достаем слаг из твоих полей Filament (UK или RU)
             $rawSlug = request()->input('slug_uk')

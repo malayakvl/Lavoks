@@ -19,7 +19,7 @@ return new class extends Migration
                 ->constrained('categories')
                 ->cascadeOnDelete();
 
-            $table->string('image')->nullable()->unique()->default('default.jpg');
+            $table->string('images')->nullable()->unique()->default('default.jpg');
             $table->boolean('active')->default(true);
 
             $table->integer('order')->default(0);

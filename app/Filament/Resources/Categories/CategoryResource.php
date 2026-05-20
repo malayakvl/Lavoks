@@ -68,7 +68,7 @@ class CategoryResource extends Resource
                 default => null,
             })
             ->columns([
-                ImageColumn::make('image')
+                ImageColumn::make('images')
                     ->label('')
                     ->disk('public')
                     // Если Filament "тупит" и не видит путь,

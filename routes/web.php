@@ -1,11 +1,24 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Catalog routes (placeholder - will be implemented later)
+Route::get('/catalog', function () {
+    return view('catalog.index');
+})->name('catalog');
+
+Route::get('/catalog/{slug}', function ($slug) {
+    return view('catalog.category', compact('slug'));
+})->name('catalog.category');
+
+// Cart route (placeholder)
+Route::get('/cart', function () {
+    return view('cart');
+})->name('cart');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
