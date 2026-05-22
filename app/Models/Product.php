@@ -35,7 +35,11 @@ class Product extends Model
 
         'old_id',
         'main_image',
-        'slug'
+        'slug',
+
+        'new_model',
+        'new_leather',
+        'new_leather_color'
     ];
 
     protected $casts = [
@@ -63,6 +67,12 @@ class Product extends Model
     public function translations(): HasMany
     {
         return $this->hasMany(ProductTranslation::class);
+    }
+
+    public function currentTranslation()
+    {
+        return $this->hasOne(ProductTranslation::class)
+            ->where('locale', app()->getLocale());
     }
 
     public function title()

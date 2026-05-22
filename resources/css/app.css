@@ -13,6 +13,7 @@
 @import "components/header.css";
 @import "components/embla.css";
 @import "components/home.css";
+@import "components/product.css";
 
 
 body {
@@ -53,14 +54,14 @@ body {
 }
 .embla__slide__title {
     color:#dccaba;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Comfortaa', -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 30px;
     font-weight: 500; /* или 600, прикинь по вкусу */
 }
 .embla__slide__text {
     color:#dccaba;
     /*font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;*/
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Comfortaa', sans-serif;
     font-weight: 300; /* Легкое начертание */
     font-size: 14px;
     display: block;
@@ -76,7 +77,7 @@ body {
 }
 .white-content h1 {
     color: #37302d;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
     font-family: 'Comfortaa', sans-serif;
 }

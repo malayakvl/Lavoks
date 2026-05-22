@@ -73,7 +73,7 @@
     background: #2c1e15;
     height: 65px;
     width: 100%;
-    margin-bottom: 50px;
+    /*margin-bottom: 50px;*/
 }
 .promo-line ul {
     display: flex;
@@ -122,3 +122,4 @@
     font-style: normal;
     color:#b0774d;
 }
+

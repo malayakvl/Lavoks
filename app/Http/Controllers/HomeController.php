@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Teaser;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
@@ -25,8 +26,27 @@ class HomeController extends Controller
                     'category_id' => $teaser->category_id,
                 ];
             });
-            
+
+        // находим новинки
+        $newProducts = Product::where('active', 1)
+            ->where('new_model', 1)
+            ->with('currentTranslation')
+            ->orderBy('created_at', 'desc')
+            ->take(12)
+            ->get()
+            ->map(function ($product) {
+
+                return [
+                    'id' => $product->id,
+                    'name' => $product->currentTranslation?->title ?? 'Без назви',
+                    'price' => $product->price,
+                    'image' => $product->main_image,
+                    'code' => $product->code,
+                ];
+            });
+
         return Inertia::render('Home', [
+            'newProducts' => $newProducts,
             'teasers' => $teasers,
         ]);
     }

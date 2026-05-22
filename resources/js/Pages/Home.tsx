@@ -2,6 +2,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import EmblaCarousel from './EmblaCarousel'
 import { EmblaOptionsType } from 'embla-carousel'
+import {ProductCard} from "../Components/Product/ProductCard";
+
 
 const OPTIONS: EmblaOptionsType = { loop: true, duration: 30 }
 
@@ -13,12 +15,19 @@ interface Teaser {
     page_url: string | null;
     category_id: number | null;
 }
+interface Product {
+    id: number;
+    name: string | null;
+    price: number | null;
+    image: string | null;
+}
 
 interface HomeProps {
     teasers: Teaser[];
+    newProducts: Product[]
 }
 
-export default function Home({ teasers }: HomeProps) {
+export default function Home({ teasers, newProducts }: HomeProps) {
     console.log(teasers)
 
     return (
@@ -142,50 +151,55 @@ export default function Home({ teasers }: HomeProps) {
                         </div>
                     </div>
                 </section>
-                <div className="promo-line">
-                    <ul>
-                        <li>
-                            <div className="flex">
-                                <div className="promo-icon promo-sign"></div>
-                                <span className="promo-text">
+            </div>
+            <div className="promo-line">
+                <ul>
+                    <li>
+                        <div className="flex">
+                            <div className="promo-icon promo-sign"></div>
+                            <span className="promo-text">
                                     Натуральна шкіра
                                     <i>Гарантія якості</i>
                                 </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="flex">
-                                <div className="promo-icon promo-hand"></div>
-                                <span className="promo-text">
+                        </div>
+                    </li>
+                    <li>
+                        <div className="flex">
+                            <div className="promo-icon promo-hand"></div>
+                            <span className="promo-text">
                                     Ручна робота
                                     <i>Увага до деталей</i>
                                 </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="flex">
-                                <div className="promo-icon promo-track"></div>
-                                <span className="promo-text">
+                        </div>
+                    </li>
+                    <li>
+                        <div className="flex">
+                            <div className="promo-icon promo-track"></div>
+                            <span className="promo-text">
                                     Швидка доставка
                                     <i>Увага до деталей</i>
                                 </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="flex">
-                                <div className="promo-icon promo-gift"></div>
-                                <span className="promo-text">
+                        </div>
+                    </li>
+                    <li>
+                        <div className="flex">
+                            <div className="promo-icon promo-gift"></div>
+                            <span className="promo-text">
                                     Система знижек
                                     <i>Знижки та акції</i>
                                 </span>
-                            </div>
-                        </li>
-                        <li></li>
-                    </ul>
-                </div>
+                        </div>
+                    </li>
+                    <li></li>
+                </ul>
             </div>
             <div className="white-content">
                 <h1>Новинки</h1>
+                <div className="products-grid">
+                    {newProducts.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </div>
             </div>
         </AuthenticatedLayout>
     );
