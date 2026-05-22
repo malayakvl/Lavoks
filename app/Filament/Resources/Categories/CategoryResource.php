@@ -71,13 +71,15 @@ class CategoryResource extends Resource
                 ImageColumn::make('images')
                     ->label('')
                     ->disk('public')
-                    // Если Filament "тупит" и не видит путь,
-                    // мы просто возвращаем чистое состояние из базы
-                    ->state(fn ($record) => $record->image)
-                    ->width(90)
-                    ->height(75)
+                    ->state(fn ($record) => str_replace(
+                        'original',
+                        'thumbs',
+                        $record->image
+                    ))
+                    ->width(80)
+                    ->height(80)
                     ->extraImgAttributes([
-                        'style' => 'object-fit: cover; border-radius: 4px;',
+                        'style' => 'object-fit: cover; border-radius: 6px;',
                     ]),
 
                 TextColumn::make('tree_title')

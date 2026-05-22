@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Teaser extends Model
 {
     protected $fillable = [
-        'images',
+        'image',
         'caption',
         'position',
         'active',

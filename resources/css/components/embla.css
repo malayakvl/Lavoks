@@ -1,0 +1,216 @@
+.embla {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    position: relative;
+
+    --slide-height: 390px;
+    --slide-spacing: 0;
+    --slide-size: 100%;
+    --detail-medium-contrast: #2a2a2a;
+    --text-body: #ffffff;
+    --detail-high-contrast: #555555;
+}
+
+.embla__viewport {
+    overflow: hidden;
+}
+
+.embla__container {
+    display: flex;
+    touch-action: pan-y pinch-zoom;
+    margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.embla__slide {
+    transform: translate3d(0, 0, 0);
+    flex: 0 0 var(--slide-size);
+    min-width: 0;
+    padding-left: var(--slide-spacing);
+    position: relative;
+}
+
+.embla__slide__img {
+    display: block;
+    height: var(--slide-height);
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.embla__slide__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    pointer-events: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.embla__slide__content {
+    width: 100%;
+    max-width: 100%;
+    pointer-events: auto;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.embla__slide__title {
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+}
+
+.embla__slide__button {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #15110d;
+    padding: 0.875rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.embla__slide__button:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.embla__controls {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 0.1rem 0.6rem;
+    border-radius: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.embla__buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    order: 1;
+}
+
+.embla__button {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.5);
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: rgba(255, 255, 255, 0.15);
+    touch-action: manipulation;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0.15rem solid rgba(255, 255, 255, 0.5);
+    padding: 0;
+    margin: 0;
+    width: 2rem;
+    height: 2rem;
+    z-index: 1;
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.embla__button:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    border-color: #ffffff;
+    transform: scale(1.1);
+}
+
+.embla__button--disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.embla__button__svg {
+    width: 35%;
+    height: 35%;
+}
+
+.embla__dots {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    order: 2;
+}
+
+.embla__dot {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.5);
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    touch-action: manipulation;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+}
+
+.embla__dot:before,
+.embla__dot:after {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    content: '';
+}
+
+.embla__dot:before {
+    border: 0.15rem solid #2a2a2a;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.embla__dot:after {
+    border: 0.15rem solid #ffffff;
+    opacity: 0;
+    background-color: #ffffff;
+}
+
+.embla__dot--selected:after {
+    opacity: 1;
+}
+
+.embla__slide__img {
+    user-select: none;
+}

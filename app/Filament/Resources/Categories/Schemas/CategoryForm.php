@@ -16,6 +16,12 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
 use Illuminate\Support\HtmlString;
 use Visualbuilder\FilamentTinyEditor\TinyEditor;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Process;
+
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class CategoryForm
 {
@@ -28,6 +34,17 @@ class CategoryForm
         $text = mb_strtolower($text);
         $text = strtr($text, $map);
         return Str::slug($text);
+    }
+
+    function resolveSlug(array $state): string
+    {
+        $source = $state['slug_uk']
+            ?? $state['slug_ru']
+            ?? null;
+
+        return $source
+            ? \Illuminate\Support\Str::slug($source)
+            : \Illuminate\Support\Str::random(8);
     }
 
     public static function configure(Schema $schema): Schema
@@ -83,14 +100,14 @@ class CategoryForm
                 ->label('Активний')
                 ->default(true),
 
-            // --- ПРЕДПРОСМОТР КАРТИНКИ (90x75) ---
+            // --- ПРЕДПРОСМОТР КАРТИНКИ (300px thumbnail) ---
             Placeholder::make('current_image')
                 ->label('Поточне зображення')
                 ->visible(fn ($record) => $record && $record->image)
                 ->content(fn ($record) => new HtmlString(
                     "<div style='
-                        width: 90px;
-                        height: 75px;
+                        width: 300px;
+                        height: auto;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -100,55 +117,149 @@ class CategoryForm
                         overflow: hidden;
                     '>
                         <img src='/storage/{$record->image}'
-                             style='width: 100%; height: 100%; object-fit: cover;'
+                             style='width: 100%; height: auto; object-fit: cover;'
                         >
                     </div>
                 ")),
 
-            // --- ЗАГРУЗКА И КРОП (90x75) ---
-            FileUpload::make('images')
-                ->label('Оновити зображення')
+            // --- ЗАГРУЗКА И КОНВЕРТАЦИЯ В WEBP (300px thumbnail) ---
+            FileUpload::make('image')
                 ->image()
                 ->disk('public')
-                ->formatStateUsing(fn () => null)
                 ->saveUploadedFileUsing(function ($file, $component) {
                     $liveData = $component->getContainer()->getRawState();
                     $rawSlug = $liveData['slug_uk'] ?? $liveData['slug_ru'] ?? uniqid();
-                    $slug = \Illuminate\Support\Str::slug($rawSlug);
+                    $slug = Str::slug($liveData['title_uk'] ?? $liveData['title_ru'] ?? $liveData['name']);
 
-                    $filename = $slug . '-' . time() . '.webp';
-                    $directory = 'categories';
-                    $storagePath = storage_path('app/public/' . $directory);
+                    $filename = $slug . '.webp';
 
-                    if (!file_exists($storagePath)) {
-                        mkdir($storagePath, 0755, true);
-                    }
+                    // ORIGINAL
+                    $originalPath = 'categories/original/' . $filename;
+//                    $cutPath = 'categories/cut/' . pathinfo($filename, PATHINFO_FILENAME) . '.png';
 
-                    $fullPath = $storagePath . '/' . $filename;
+                    Storage::disk('public')->putFileAs(
+                        'categories/original',
+                        $file,
+                        $filename
+                    );
+                    $originalFullPath = storage_path("app/public/categories/original/{$filename}");
+                    $cutPath = "categories/cut/" . pathinfo($filename, PATHINFO_FILENAME) . ".png";
+//                    Process::run(sprintf(
+//                        'rembg i %s %s',
+//                        escapeshellarg($originalFullPath),
+//                        escapeshellarg(storage_path('app/public/' . $cutPath))
+//                    ));
 
-                    try {
-                        $manager = new \Intervention\Image\ImageManager(
-                            new \Intervention\Image\Drivers\Gd\Driver()
-                        );
-                        $image = $manager->decodePath($file->getRealPath());
+                    // THUMB
+                    $thumbPath = 'categories/thumbs/' . $filename;
 
-                        // МЕНЯЕМ ТУТ: Кропаем ровно под 90x75
-                        $image->cover(90, 75);
+                    $manager = ImageManager::usingDriver(
+                        Driver::class
+                    );
 
-                        $encoded = $image->encode(new \Intervention\Image\Encoders\WebpEncoder(quality: 70)); // Качество 70 для таких малюток — за глаза
-                        $encoded->save($fullPath);
+                    $image = $manager
+                        ->decodeSplFileInfo($file)
+                        ->scale(width: 300);
 
-                        $originalInFolder = $storagePath . '/' . $file->getFilename();
-                        if (file_exists($originalInFolder)) {
-                            @unlink($originalInFolder);
+                    $encoded = $image->encodeUsingFileExtension(
+                        'webp',
+                        quality: 85
+                    );
+
+                    Storage::disk('public')->put(
+                        $thumbPath,
+                        (string) $encoded
+                    );
+
+                    $input = storage_path("app/public/categories/original/{$filename}");
+
+                    // Временный PNG с прозрачным фоном
+                    $tempPngPath = storage_path('app/public/' . $cutPath);
+                    
+                    Process::run(sprintf(
+                        '/Users/viktoriakorogod/rembg-env/bin/rembg i %s %s',
+                        escapeshellarg($input),
+                        escapeshellarg($tempPngPath)
+                    ));
+
+                    // Конвертируем PNG в WebP для уменьшения размера
+                    if (file_exists($tempPngPath)) {
+                        $cutWebpPath = 'categories/cut/' . pathinfo($filename, PATHINFO_FILENAME) . '.webp';
+                        
+                        // Используем GD напрямую для конвертации
+                        $im = imagecreatefrompng($tempPngPath);
+                        if ($im) {
+                            imagewebp($im, storage_path('app/public/' . $cutWebpPath), 85);
+                            imagedestroy($im);
+                            
+                            // Удаляем временный PNG
+                            @unlink($tempPngPath);
+                            
+                            // Обновляем путь к cut изображению
+                            $cutPath = $cutWebpPath;
                         }
-
-                        return $directory . '/' . $filename;
-                    } catch (\Exception $e) {
-                        \Log::error("Filament Image Error: " . $e->getMessage());
-                        return $file->store($directory, 'public');
                     }
+
+                    return $originalPath;
                 }),
+//            FileUpload::make('image')
+//                ->image()
+//                ->disk('public')
+//                ->saveUploadedFileUsing(function ($file, $component) {
+//                    $liveData = $component->getContainer()->getRawState();
+//                    $rawSlug = $liveData['slug_uk'] ?? $liveData['slug_ru'] ?? uniqid();
+//                    $slug = Str::slug($liveData['title_uk'] ?? $liveData['title_ru'] ?? $liveData['name']);
+//
+//                    $filename = $slug . '.webp';
+//
+//                    // ORIGINAL
+//                    $originalPath = 'categories/original/' . $filename;
+////                    $cutPath = 'categories/cut/' . pathinfo($filename, PATHINFO_FILENAME) . '.png';
+//
+//                    Storage::disk('public')->putFileAs(
+//                        'categories/original',
+//                        $file,
+//                        $filename
+//                    );
+//                    $originalFullPath = storage_path("app/public/categories/original/{$filename}");
+//                    $cutPath = "categories/cut/" . pathinfo($filename, PATHINFO_FILENAME) . ".png";
+//                    Process::run(sprintf(
+//                        'rembg i %s %s',
+//                        escapeshellarg($originalFullPath),
+//                        escapeshellarg(storage_path('app/public/' . $cutPath))
+//                    ));
+//
+//                    // THUMB
+//                    $thumbPath = 'categories/thumbs/' . $filename;
+//
+//                    $manager = ImageManager::usingDriver(
+//                        Driver::class
+//                    );
+//
+//                    $image = $manager
+//                        ->decodeSplFileInfo($file)
+//                        ->scale(width: 300);
+//
+//                    $encoded = $image->encodeUsingFileExtension(
+//                        'webp',
+//                        quality: 85
+//                    );
+//
+//                    Storage::disk('public')->put(
+//                        $thumbPath,
+//                        (string) $encoded
+//                    );
+//
+//                    $input = storage_path("app/public/categories/original/{$filename}");
+//
+//                    Process::run(sprintf(
+//                        '/Users/viktoriakorogod/rembg-env/bin/rembg i %s %s',
+//                        escapeshellarg($input),
+//                        escapeshellarg(storage_path('app/public/' . $cutPath))
+//                    ));
+//
+//                    return $originalPath;
+//                }),
 
             Hidden::make('position')->default(0),
 

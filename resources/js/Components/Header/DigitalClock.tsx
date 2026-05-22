@@ -20,7 +20,7 @@ export function DigitalClock() {
     };
 
     return (
-        <div className="font-mono text-xl tracking-widest text-white text-center">
+        <div className="font-mono text-md text-white tracking-widest text-white text-center">
             {formatTime(time)}
         </div>
     );

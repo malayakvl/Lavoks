@@ -11,11 +11,11 @@ export function CartButton({ count = 0, onClick }: Props) {
             onClick={onClick}
             className="relative flex items-center gap-2"
         >
-            {/*<img*/}
-            {/*    src="https://lavoks.com/images/mobile_btns/big-cart.png"*/}
-            {/*    alt="cart"*/}
-            {/*    className="w-[42px] h-[42px]"*/}
-            {/*/>*/}
+            <img
+                src="/images/header/cart.svg"
+                alt="cart"
+                className="w-[42px] h-[42px] mt-[7px] ml-[10px]"
+            />
 
             <div className="text-left leading-tight">
                 {count > 0 ? (

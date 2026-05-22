@@ -59,7 +59,7 @@ const ListItem = React.forwardRef(
     },
 );
 
-export default function Header({ categories }: Props) {
+export default function HeaderCopy({ categories }: Props) {
     const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
     const [cartOpen, setCartOpen] = React.useState(false);
     const [cartCount, setCartCount] = React.useState(0);
@@ -212,114 +212,18 @@ export default function Header({ categories }: Props) {
                                         <NavigationMenu.Trigger className="NavigationMenuTrigger">
                                             <span className="parent-menu">{cat.current_translation?.title}</span>
                                         </NavigationMenu.Trigger>
-
                                         <NavigationMenu.Content className="NavigationMenuContent">
-                                            <div className="dropdown-mega-menu dropdown-layout">
-                                                {/* Левый сайдбар под стиль макета Figma */}
-                                                <div className="dropdown-sidebar">
-                                                    <h3 className="sidebar-title">Категорії</h3>
-                                                    <ul className="sidebar-list">
-                                                        <li>
-                                                            <a href={`/category/${cat.id}`} className="sidebar-link active">
-                                                                Всі {cat.current_translation?.title}
-                                                                <span className="cat-count">{cat.children?.length || 0}</span>
-                                                            </a>
-                                                        </li>
-                                                        {cat.children.map((child) => (
-                                                            <li key={child.id}>
-                                                                <a href={`/category/${child.id}`} className="sidebar-link">
-                                                                    {child.current_translation?.title}
-                                                                </a>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-
-
-                                                {/* Правая контентная область со слайдером - 2 ряда по 3 карточки */}
-                                                <div className="dropdown-carousel-wrapper">
-                                                    <h3 className="carousel-section-title">Моделі</h3>
-                                                    
-                                                    {/* Слайдер */}
-                                                    <ul className="dropdown-carousel-track">
-                                                        {(() => {
-                                                            const slides = [];
-                                                            const itemsPerSlide = 9;
-                                                            const totalItems = cat.children.length;
-                                                            const slideCount = Math.ceil(totalItems / itemsPerSlide);
-                                                            const remainder = totalItems % itemsPerSlide;
-                                                            
-                                                            // Если остаток маленький (<3), убираем последний слайд и распределяем
-                                                            const actualSlideCount = (remainder > 0 && remainder < 3 && slideCount > 1)
-                                                                ? slideCount - 1
-                                                                : slideCount;
-                                                            
-                                                            const baseItemsPerSlide = Math.floor(totalItems / actualSlideCount);
-                                                            const extraItems = totalItems % actualSlideCount;
-                                                            
-                                                            let currentIndex = 0;
-                                                            for (let i = 0; i < actualSlideCount; i++) {
-                                                                // Добавляем +1 элемент к последним слайдам
-                                                                const slideSize = baseItemsPerSlide + (i >= actualSlideCount - extraItems ? 1 : 0);
-                                                                const slideItems = cat.children.slice(currentIndex, currentIndex + slideSize);
-                                                                currentIndex += slideSize;
-                                                                slides.push(
-                                                                    <li key={i} className="carousel-slide">
-                                                                        {slideItems.map((child) => (
-                                                                            <ListItem
-                                                                                key={child.id}
-                                                                                href={`/category/${child.id}`}
-                                                                                image={child.image}
-                                                                            >
-                                                                                <span className="card-title-class">{child.current_translation?.title || ''}</span>
-                                                                            </ListItem>
-                                                                        ))}
-                                                                    </li>
-                                                                );
-                                                            }
-                                                            
-                                                            return slides;
-                                                        })()}
-                                                    </ul>
-
-                                                    {/* Точки пагинации */}
-                                                    {cat.children.length > 9 && (
-                                                        <div className="dropdown-pagination-dots">
-                                                            {(() => {
-                                                                const totalItems = cat.children.length;
-                                                                const remainder = totalItems % 9;
-                                                                const slideCount = remainder > 0 && remainder < 3 && Math.ceil(totalItems / 9) > 1 
-                                                                    ? Math.ceil(totalItems / 9) - 1 
-                                                                    : Math.ceil(totalItems / 9);
-                                                                
-                                                                return Array.from({ length: slideCount }).map((_, index) => (
-                                                                    <button
-                                                                        key={index}
-                                                                        className={`pagination-dot ${index === 0 ? 'active' : ''}`}
-                                                                        onClick={(e) => {
-                                                                            const track = e.currentTarget.closest('.dropdown-carousel-wrapper').querySelector('.dropdown-carousel-track');
-                                                                            if (track) {
-                                                                                const slideWidth = track.offsetWidth;
-                                                                                track.scrollTo({ 
-                                                                                    left: slideWidth * index, 
-                                                                                    behavior: 'smooth' 
-                                                                                });
-                                                                                
-                                                                                // Обновляем активную точку
-                                                                                track.closest('.dropdown-carousel-wrapper')
-                                                                                    .querySelectorAll('.pagination-dot')
-                                                                                    .forEach((dot, i) => {
-                                                                                        dot.classList.toggle('active', i === index);
-                                                                                    });
-                                                                            }
-                                                                        }}
-                                                                    />
-                                                                ));
-                                                            })()}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
+                                            <ul className="List two">
+                                                {cat.children.map((child) => (
+                                                    <ListItem
+                                                        key={child.id}
+                                                        href={`/category/${child.id}`}
+                                                        image={child.image}
+                                                    >
+                                                        <span className="card-title-class">{child.current_translation?.title || ''}</span>
+                                                    </ListItem>
+                                                ))}
+                                            </ul>
                                         </NavigationMenu.Content>
                                     </>
                                 ) : (

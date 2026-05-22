@@ -2,15 +2,13 @@
 header {
     /*background: url(../../images/header/textura.jpg);*/
     /*background: url(../../images/header/new-textura.png);*/
-    /*background: url(../../images/header/textura-2.png);*/
-    /*background-size: contain;*/
-    /*background-color: #120d0a; /* Фолбэк-цвет в тон */
+    background: url(../../images/header/textura-2.png);
+    background-size: contain;
+    background-color: #120d0a; /* Фолбэк-цвет в тон */
     /*background-size: cover;*/
     min-height: 200px;
     border-radius: 0;
     filter: brightness(0.85);
-    position: relative;
-    z-index: 50;
 }
 
 
@@ -19,7 +17,7 @@ header {
     display: flex;
     justify-content: center;
     width: 100%;
-    z-index: 100;
+    z-index: 1;
     background: rgba(9, 7, 4, 0.7);
     border-top: 1px solid  #4e3a28;
     border-bottom: 1px solid #4e3a28;
@@ -101,7 +99,6 @@ header {
     animation-duration: 250ms;
     animation-timing-function: ease;
     background-color: #1e1813;
-    z-index: 102;
 }
 .NavigationMenuContent[data-motion="from-start"] {
     animation-name: enterFromLeft;
@@ -152,7 +149,6 @@ header {
         width,
         height,
         300ms ease;
-    z-index: 101;
 }
 .NavigationMenuViewport[data-state="open"] {
     animation: scaleIn 200ms ease;
@@ -162,240 +158,6 @@ header {
 }
 .NavigationMenuContent {
     backdrop-filter: blur(16px);
-}
-
-/* Двухколоночный layout для dropdown */
-.dropdown-layout {
-    display: flex;
-    gap: 0;
-    width: 100%;
-    min-height: 400px;
-}
-
-.dropdown-sidebar {
-    width: 25%;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 16px 12px;
-    flex-shrink: 0;
-    max-height: 380px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(212, 175, 55, 0.5) transparent;
-}
-
-.dropdown-sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.dropdown-sidebar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
-}
-
-.dropdown-sidebar::-webkit-scrollbar-thumb {
-    background: rgba(212, 175, 55, 0.5);
-    border-radius: 3px;
-}
-
-.sidebar-title {
-    color: #d4af37;
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0 0 12px 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.sidebar-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 10px;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    font-size: 13px;
-    line-height: 1.3;
-}
-
-.sidebar-link:hover,
-.sidebar-link.active {
-    background-color: rgba(212, 175, 55, 0.15);
-    color: #d4af37;
-}
-
-.cat-count {
-    background-color: rgba(212, 175, 55, 0.2);
-    color: #d4af37;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.dropdown-carousel-wrapper {
-    width: 75%;
-    padding: 16px;
-    position: relative;
-}
-
-.carousel-section-title {
-    color: #d4af37;
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0 0 12px 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Слайдер с карточками - 2 ряда по 3 карточки */
-.dropdown-carousel-wrapper {
-    width: 75%;
-    padding: 16px;
-    position: relative;
-    overflow: hidden;
-}
-
-.dropdown-carousel-track {
-    display: flex;
-    gap: 0;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
-    padding: 8px 0;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-}
-
-.dropdown-carousel-track::-webkit-scrollbar {
-    display: none;
-}
-
-/* Каждый слайд содержит 9 карточек (3x3 grid) */
-.carousel-slide {
-    flex: 0 0 100%;
-    scroll-snap-align: start;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, auto);
-    gap: 16px;
-    padding: 0 8px;
-}
-
-/* Карточка с картинкой слева и текстом справа */
-.dropdown-carousel-track .ListItemLink {
-    display: block;
-    height: 100%;
-    outline: none;
-    text-decoration: none;
-    user-select: none;
-    transition: transform .25s ease;
-}
-
-.dropdown-carousel-track .ListItemLink:hover {
-    transform: translateY(-2px);
-}
-
-.dropdown-carousel-track .image-menu-link {
-    display: flex;
-    align-items: stretch;
-    gap: 0;
-    background-color: #272018;
-    border-radius: 16px;
-    overflow: hidden;
-    width: 100%;
-    min-height: 100px;
-    box-sizing: border-box;
-    box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.65),
-        0 10px 20px rgba(0, 0, 0, 0.4),
-        inset 0 1px 2px rgba(255, 255, 255, 0.05);
-    transition: background-color 0.25s ease;
-}
-
-.dropdown-carousel-track .ListItemLink:hover .image-menu-link {
-    background-color: #2f271f;
-}
-
-/* Блок с картинкой слева */
-.dropdown-carousel-track .image-div-cat {
-    width: 100px;
-    background-color: #c4b4a9 !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    border-right: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-/* Картинка */
-.dropdown-carousel-track .ListItemImage {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain;
-    padding: 0;
-    box-sizing: border-box;
-    background: transparent;
-    transform-origin: center center;
-    border-radius: 0 !important;
-}
-
-/* Текстовый блок справа */
-.dropdown-carousel-track .text-content {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 12px;
-    box-sizing: border-box;
-}
-
-.dropdown-carousel-track .card-title-class {
-    color: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.4;
-    margin: 0;
-}
-
-/* Точки пагинации */
-.dropdown-pagination-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 16px;
-}
-
-.pagination-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 0;
-}
-
-.pagination-dot:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-.pagination-dot.active {
-    background-color: #d4af37;
-    transform: scale(1.2);
 }
 
 .List {
@@ -504,6 +266,15 @@ header {
     max-width: 100%;
 }
 
+/*.ListItemImage {*/
+/*    width: 85px;*/
+/*    height: auto;*/
+/*    flex-shrink: 0;*/
+/*    object-fit: cover;*/
+/*    border-radius: 10px;*/
+/*    !*border: 1px solid rgba(0,0,0,.05);*!*/
+/*    background: #c5b4aa;*/
+/*}*/
 
 .text-content {
     flex: 1;
@@ -552,7 +323,6 @@ header {
     left: 0;
     perspective: 2000px;
     border: none !important;
-    z-index: 101;
 }
 
 .NavigationMenuContent {
@@ -564,7 +334,6 @@ header {
     background-color: #1e1813;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 102;
 }
 
 .CaretDown {
@@ -786,7 +555,11 @@ header {
 /*    align-items: center;*/
 /*}*/
 
-
+/*.ListItemImage {*/
+/*    display: block;*/
+/*    border-radius: 0;*/
+/*    !*box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);*!*/
+/*}*/
 
 .ListItemTextNew {
     margin: 0;
@@ -853,6 +626,19 @@ header {
 /*    border-radius: 8px;*/
 /*}*/
 
+/* 2. Магия для самой картинки */
+/*.ListItemImage {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    object-fit: contain; !* Кошелек полностью помещается внутри, не обрезаясь *!*/
+
+/*    !* Смешиваем фон картинки с фоном карточки.*/
+/*       Светло-серый и белый цвета просто исчезнут! *!*/
+/*    mix-blend-mode: multiply;*/
+
+/*    !* На всякий случай сбрасываем старые инверсии, если они оставались *!*/
+/*    filter: none !important;*/
+/*}*/
 
 /* 3. Корректируем саму карточку, чтобы кошелек смотрелся на ней идеально */
 /*.image-menu-link {*/
@@ -914,9 +700,9 @@ header {
 
 /* 3. Левый блок с картинкой (Подстраиваем под цвет фона твоих фото) */
 .image-div-cat {
-    width: 125px; /* Фиксированная ширина левой серой плашки */
+    width: 105px; /* Фиксированная ширина левой серой плашки */
     /* ВНИМАНИЕ: Цвет ниже должен идеально совпадать с серым фоном на твоих исходных фото */
-    background-color: #c4b4a9 !important;
+    background-color: #dcdcdc !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -929,19 +715,16 @@ header {
 
 /* 4. Сама картинка товара внутри серого блока */
 .ListItemImage {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    /*object-fit: contain !important; !* Image fits fully without cropping *!*/
-    transform: scale(1.3); /* Scale up to 150% for better fit */
-    object-fit: contain;
-    padding: 0px;
-    box-sizing: border-box;
-    background: transparent;
-    transform-origin: center center; /* Center the scaling */
-    border-radius: 0 !important;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Кошелек пропорционально вписывается, не обрезаясь */
+    border-radius: 0 !important; /* Сбрасываем скругления у самой картинки */
+    background: transparent !important;
 
-    /* Сбрасываем все старые режимы смешивания, которые давали лажу */
+    /* ПОЛНОСТЬЮ убираем режимы смешивания, они здесь больше не нужны */
+    mix-blend-mode: normal !important;
+    filter: none !important;
 }
 
 /* 5. Правый блок с контентом (задаем внутренние отступы здесь) */

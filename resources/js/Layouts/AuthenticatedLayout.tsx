@@ -18,7 +18,7 @@ export default function AuthenticatedLayout({ children, header }: Props) {
 
             {/* MAIN CONTENT */}
             <main className="flex-1">
-                <div className="max-w-7xl mx-auto px-4 py-6">
+                <div className="max-w mx-auto">
                     {children}
                 </div>
             </main>

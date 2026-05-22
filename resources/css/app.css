@@ -11,13 +11,72 @@
 @import "@radix-ui/colors/blue.css";
 
 @import "components/header.css";
+@import "components/embla.css";
+@import "components/home.css";
 
 
 body {
     padding:0;
     margin: 0;
     font-family: 'Montserrat', sans-serif;
+    /*background-color: #15110d;*/
+    /*background: url(../images/header/textura-2.png), #15110d;*/
+
+    /*background:*/
+    /*    linear-gradient(rgba(21, 17, 13, 0.85), rgba(21, 17, 13, 0.85)),*/
+    /*    url('../images/header/textura-2.png');*/
+    /*background-color: #15110d;*/
+
+    /*background-size: cover;*/
+
+    background-image: url('../images/header/textura-2.png');
+    background-color: rgba(18,15,12, 0.5);
+    background-blend-mode: multiply; /* Или overlay, в зависимости от исходника */
+
 }
 
 
+.embla__slide {
+    /*background-color: #fff;*/
+}
 
+.embla__slide__button {
+    background-color: #2d1f16;
+    border:solid 1px #36281e;
+    color: #b17f52;
+    height: 50px;
+    max-width: 250px;
+    width: 250px;
+    text-align: center;
+    font-size: 16px;
+    display: block;
+}
+.embla__slide__title {
+    color:#dccaba;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 30px;
+    font-weight: 500; /* или 600, прикинь по вкусу */
+}
+.embla__slide__text {
+    color:#dccaba;
+    /*font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;*/
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300; /* Легкое начертание */
+    font-size: 14px;
+    display: block;
+    margin-bottom: 20px;
+}
+.embla__slide__text p {
+    margin: 10px 0;
+}
+.white-content {
+    background-color: #ece4e0;
+    width: 100%;
+    padding: 20px 30px;
+}
+.white-content h1 {
+    color: #37302d;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Comfortaa', sans-serif;
+}

@@ -1,0 +1,124 @@
+
+/* Ссылка "Переглянути" */
+.category-promo-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #c5b499;
+    /*color: rgba(229, 203, 96, 0.4);*/
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.category-promo-card:hover .category-promo-link {
+    color: #b89742; /* Становится золотой */
+}
+
+.category-promo-card {
+    display: flex;
+    flex-direction: column;
+
+    /* МАГИЯ ЛЮКСА: Полупрозрачный темный фон + размытие того, что ПОД карточкой */
+    background: linear-gradient(
+        135deg,
+        rgba(29, 23, 19, 0.65) 0%,
+        rgba(15, 12, 10, 0.85) 100%
+    );
+    /* Эффект матового стекла (размывает текстуру кожи на фоне под карточкой) */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-image: url(../../images/home/slide-texture.jpeg);
+
+
+    /* Тончайшая премиальная рамка, имитирующая отблеск света на грани */
+    border: 1px solid rgba(227, 210, 196, 0.08);
+    border-radius: 12px; /* На макете углы довольно мягкие */
+
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.category-promo-card-1 {
+    background-image: url(../../images/home/t-3.png);
+    background-size: cover;
+    background-position: center;
+}
+.category-promo-card-2 {
+    background-image: url(../../images/home/t-5.png);
+    background-size: cover;
+    background-position: center;
+}
+
+/* Эффект при наведении — карточка слегка "оживает" и подсвечивается изнутри */
+.category-promo-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(184, 151, 66, 0.3); /* Золотинка на гранях */
+
+    /* Глубокая мягкая тень, чтобы карточка оторвалась от фона */
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.6),
+        0 0 15px rgba(184, 151, 66, 0.05); /* Едва заметное золотое свечение */
+}
+
+/* Блок с текстом делаем бесшовным продолжением подложки */
+.category-promo-info {
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: transparent; /* Оставляем сквозной люксовый фон карточки */
+}
+.promo-line {
+    background: #2c1e15;
+    height: 65px;
+    width: 100%;
+    margin-bottom: 50px;
+}
+.promo-line ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0 180px;
+}
+.promo-line ul li {
+    font-family: 'Inter', sans-serif;
+    color: #c6bbb1;
+}
+.promo-icon {
+    width: 65px;
+    height: 55px;
+    background-position-x: 15px !important;
+    background-position-y: 5px !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    display: inline-block;
+}
+.promo-sign {
+    background: url(../../images/home/sign.png);
+}
+.promo-hand {
+    background: url(../../images/home/hand.png);
+}
+.promo-track {
+    background: url(../../images/home/track.png);
+    background-position-x: 0px !important;
+}
+.promo-gift {
+    background: url(../../images/home/gift.png);
+}
+.promo-text {
+    font-family: 'Inter', sans-serif;
+    display: inline-block;
+    font-size: 14px;
+    color: #e7d9c5;
+    margin-top: 14px;
+}
+.promo-text i {
+    display: block;
+    font-size: 12px;
+    font-style: normal;
+    color:#b0774d;
+}
