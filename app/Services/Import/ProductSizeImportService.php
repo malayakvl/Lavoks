@@ -11,7 +11,7 @@ class ProductSizeImportService
 {
     public function import(int $limit = 0)
     {
-        $sql = file_get_contents(storage_path('legacy/productsTout.sql'));
+        $sql = file_get_contents(storage_path('legacy/products.sql'));
 
         // 1. вырезаем только VALUES блок (без regex)
         $start = strpos($sql, 'VALUES');
@@ -32,17 +32,28 @@ class ProductSizeImportService
         foreach ($rows as $i => $row) {
 
             $data = $this->parseRow($row);
-            $oldId = (int)($data[0] ?? 0);
-            $oldId = $data[0];
-
-            $leatherId = $data[12];
+            
+            // Strip backticks and cast to integer for old_id
+            $oldId = $data[0] ?? null;
+            if ($oldId) {
+                $oldId = str_replace('`', '', $oldId);
+                $oldId = is_numeric($oldId) ? (int)$oldId : 0;
+            }
 
             if (!$oldId) {
                 continue;
             }
 
             $product = Product::where('old_id', $oldId)->first();
+            if (!$product || !$product->category_id) {
+                continue;
+            }
+            
             $category = Category::where('id', $product->category_id)->first();
+            if (!$category || !$category->size_id) {
+                continue;
+            }
+            
             $size = Size::where('id', $category->size_id)->first();
 
 

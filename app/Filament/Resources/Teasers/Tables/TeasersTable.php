@@ -19,7 +19,7 @@ class TeasersTable
             ->reorderable('position')
             ->columns([
                 //
-                ImageColumn::make('images')
+                ImageColumn::make('image')
                     ->label('')
                     ->disk('public')
                     ->state(fn ($record) => $record->image)
@@ -37,19 +37,19 @@ class TeasersTable
                     ->tooltip(fn ($record) => $record->caption)
                     ->extraAttributes(['class' => 'product-title-cell']),
 
+
                 IconColumn::make('active')
                     ->label('Активний')
                     ->boolean(),
+
+                TextColumn::make('position')
+                    ->label('Позиція')
+                    ->sortable(),
             ])
-            ->filters([
-                //
+            ->actions([
+                EditAction::make(),
             ])
-            ->recordActions([
-                \Filament\Actions\EditAction::make()
-                    ->button()->label('Редагувати')->icon('heroicon-m-pencil-square')->color('success'),
-                \Filament\Actions\DeleteAction::make()->button()->label('Видалити')->icon('heroicon-m-trash')->color('danger'),
-            ])
-            ->toolbarActions([
+            ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

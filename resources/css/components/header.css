@@ -285,7 +285,7 @@ header {
     scroll-snap-align: start;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, auto);
+    grid-auto-rows: minmax(100px, auto);
     gap: 16px;
     padding: 0 8px;
 }
@@ -294,6 +294,7 @@ header {
 .dropdown-carousel-track .ListItemLink {
     display: block;
     height: 100%;
+    min-height: 100px;
     outline: none;
     text-decoration: none;
     user-select: none;
@@ -739,12 +740,12 @@ header {
     /*background-repeat: no-repeat;*/
     background-size: cover;
     min-width: 200px;
-    height: 60px;
+    height: 54px;
     /*background: url('../../images/header/b-cart.png') no-repeat center;*/
     /*background-size: cover;*/
 
     /* 1. Скругляем сам HTML-блок точно так же, как скруглена кнопка на картинке */
-    border-radius: 16px;
+    border-radius: 10px;
     border: solid 1px #b48b62;
 
     /* 2. Обрезаем всё, что вылезает за пределы скругления (черные углы картинки) */
@@ -758,7 +759,7 @@ header {
 }
 .empty-cart {
     position: absolute;
-    top: 11px;
+    top: 8px;
     left: 85px;
     font-family: 'Montserrat', sans-serif;
     color: #b48b62;
@@ -896,7 +897,8 @@ header {
     overflow: hidden; /* Автоматически скругляет левые углы серой подложки картинки */
     width: 100%;
     max-width: 340px;
-    min-height: 124px; /* Фиксированная высота, чтобы сетка стояла ровно */
+    height: 100%;
+    min-height: 100px;
     box-sizing: border-box;
 
     /* Дорогая объемная тень из скетча */
@@ -980,4 +982,9 @@ header {
 
 .ListItemLink:hover .view-link-arrow {
     color: #e5ba8d; /* Стрелочка становится ярче при ховере на карточку */
+}
+
+.top-search-input {
+    @apply flex items-center w-full bg-[#1b1009] border-1 border-[#d4a373] px-4 py-2 shadow-[inset_0_6px_12px_rgba(0,0,0,0.9)] focus-within:border-[#d4af37] focus-within:shadow-[inset_0_4px_10px_rgba(0,0,0,0.9),_0_0_15px_rgba(212,175,55,0.3)] transition-all;
+    border-radius: 8px;
 }

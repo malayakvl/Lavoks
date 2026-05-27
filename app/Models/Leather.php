@@ -10,7 +10,7 @@ class Leather extends Model
     protected $table = 'leathers';
 
     protected $fillable = [
-        'images',
+        'image',
         'old_id',
     ];
 

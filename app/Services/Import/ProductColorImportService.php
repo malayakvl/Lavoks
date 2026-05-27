@@ -33,7 +33,16 @@ class ProductColorImportService
         foreach ($rows as $i => $row) {
 
             $data = $this->parseRow($row);
+            
+            // Strip backticks and validate old_id
             $oldId = $data[0] ?? null;
+            if ($oldId) {
+                $oldId = str_replace('`', '', $oldId);
+                if (!is_numeric($oldId)) {
+                    continue;
+                }
+                $oldId = (int)$oldId;
+            }
 
             if (!$oldId) {
                 continue;

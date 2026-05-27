@@ -10,7 +10,7 @@ class ProductLeatherImportService
 {
     public function import(int $limit = 0)
     {
-        $sql = file_get_contents(storage_path('legacy/productsTout.sql'));
+        $sql = file_get_contents(storage_path('legacy/products.sql'));
 
         // 1. вырезаем только VALUES блок (без regex)
         $start = strpos($sql, 'VALUES');
@@ -31,10 +31,20 @@ class ProductLeatherImportService
         foreach ($rows as $i => $row) {
 
             $data = $this->parseRow($row);
-            $oldId = (int)($data[0] ?? 0);
-            $oldId = $data[0];
+            
+            // Strip backticks and cast to integer for old_id
+            $oldId = $data[0] ?? null;
+            if ($oldId) {
+                $oldId = str_replace('`', '', $oldId);
+                $oldId = is_numeric($oldId) ? (int)$oldId : 0;
+            }
 
-            $leatherId = $data[12];
+            // Strip backticks and cast to integer for leather_id (lazer_type_id)
+            $leatherId = $data[12] ?? null;
+            if ($leatherId) {
+                $leatherId = str_replace('`', '', $leatherId);
+                $leatherId = is_numeric($leatherId) ? (int)$leatherId : 0;
+            }
 
             if (!$oldId) {
                 continue;
@@ -42,7 +52,7 @@ class ProductLeatherImportService
 
             $product = Product::where('old_id', $oldId)->first();
             $leather = Leather::where('old_id', $leatherId)->first();
-//            dd($product->id);exit;
+//            dd($leather);exit;
 
             ProductLeather::updateOrCreate(
                 [

@@ -8,7 +8,7 @@ use App\Services\Import\Pipelines\ProductPhotosImportPipeline;
 class ImportPhotosProducts extends Command
 {
 //    protected $signature = 'import:photo:product';
-    protected $signature = 'import:photo:product {--category_id=}';
+    protected $signature = 'import:rebuild:photos {--category_id=}';
 
     protected $description = 'Import product from legacy dump';
 

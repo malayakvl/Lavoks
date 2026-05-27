@@ -9,11 +9,8 @@ use App\Services\Import\LeatherImportRuLangService;
 use App\Services\Import\ProductLeatherImportService;
 use App\Services\Import\ProductColorImportService;
 use App\Services\Import\ProductSizeImportService;
-use App\Services\Import\ProductImportDateService;
-use App\Services\Import\ProductImportAttrService;
-//use App\Services\Import\ProductImportImageService;
-use App\Services\Import\ProductClearImageService;
-use App\Services\Import\ProductNormilizeImageService;
+use App\Services\Import\ProductImportCreatedService;
+
 
 
 class ProductImportPipeline
@@ -21,18 +18,7 @@ class ProductImportPipeline
     public function handle(): void
     {
         // 1. LOAD PRODUCTS
-//        app(ProductImportService::class)->import();
-
-//        app(ProductImportDateService::class)->import();
-
-//        app(ProductImportAttrService::class)->import();
-
-//        app(ProductImportImageService::class)->import();
-
-//        app(ProductClearImageService::class)->import();
-
-        app(ProductNormilizeImageService::class)->import();
-
+        app(ProductImportService::class)->import();
 
         // 1.1 INSERT PRODUCTS PIVOT TABLES
 //        app(ProductLeatherImportService::class)->import();
@@ -40,6 +26,9 @@ class ProductImportPipeline
 //        app(ProductColorImportService::class)->import();
         // 1.3 INSERT PRODUCTS PIVOT TABLES
 //        app(ProductSizeImportService::class)->import();
+
+        // 1.4 UPDATE DATE
+//        app(ProductImportCreatedService::class)->import();
 
         // 2. INSERT UA DATA
 //        app(ProductImportUaLangService::class)->import();

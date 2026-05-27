@@ -16,7 +16,7 @@ class ProductImportService
 {
     public function import(int $limit = 0)
     {
-        $sql = file_get_contents(storage_path('legacy/products.sql'));
+        $sql = file_get_contents(storage_path('legacy/productsTotu.sql'));
 
         // 1. вырезаем только VALUES блок (без regex)
         $start = strpos($sql, 'VALUES');
@@ -38,14 +38,14 @@ class ProductImportService
 
             $data = $this->parseRow($row);
 
-            $oldId = $data[0];
+            $oldId = @$data[0];
             // Skip if oldId is not a valid number
             if (!$oldId || !is_numeric($oldId)) {
                 continue;
             }
             $oldId = (int)$oldId;
 
-            $code = $data[11];
+            $code = $data[11] ?? 'code_'.$oldId;
             $slug = $data[1];
             $name = $data[2];
             $categoryOldId = $data[3];
@@ -94,92 +94,98 @@ class ProductImportService
                     ['name' => $familyName]
                 );
             }
+            try {
 
-            $product = Product::updateOrCreate(
-                [
-                    'old_id' => $oldId,
-                ],
-                [
-                    'category_id' => $category?->id,
-                    'product_family_id' => $family?->id,
+                $product = Product::updateOrCreate(
+                    [
+                        'old_id' => $oldId,
+                    ],
+                    [
+                        'category_id' => $category?->id,
+                        'product_family_id' => $family?->id,
 
-                    'code' => $code,
-                    'slug' => $slug,
-                    'main_image' => $mainImage,
-                    'gtin' => $gtin,
-                    'mpn' => $mpn ?? $mpn2,
-                    'size_id' => $category?->size_id,
+                        'code' => $code,
+                        'slug' => $slug,
+                        'main_image' => $mainImage,
+                        'gtin' => $gtin,
+                        'mpn' => $mpn ?? $mpn2,
+                        'size_id' => $category?->size_id,
 
-                    'price' => $price,
-                    'old_price' => null,
+                        'price' => $price,
+                        'old_price' => $price,
 
-                    'active' => (bool)$active,
-                    'popular' => (bool)$data[18],
-                    'is_new' => (bool)$data[19],
-                    'to_order' => (bool)$data[20],
-                    'is_absent' => (bool)$data[21],
+                        'active' => (bool)$active,
+                        'popular' => (bool)$data[18] || false,
+                        'is_new' => (bool)$data[27] || false,
+                        'to_order' => (bool)$data[20] || false,
+                        'is_absent' => (bool)$data[21] || false,
+                        'new_model' => (bool)$data[27] || false,
 
-                    'rating' => $rating,
-                    'review_count' => 0,
+                        'rating' => $rating,
+                        'review_count' => 0,
 
-                    'sort_order' => $sortOrder,
+                        'sort_order' => $sortOrder || 999999999,
 
-                    'created_at' => $createdAt,
-                    'updated_at' => $updatedAt,
-                ]
-            );
-            $productId = $product->id;
+                        'created_at_old' => $createdAt,
+                        'updated_at_old' => $updatedAt,
+                    ]
+                );
+                $productId = $product->id;
 
-            // Create relationships for colors
-            if (!empty($colors)) {
-                $colorIds = Color::whereIn('old_id', $colors)->pluck('id')->toArray();
-                $product->colors()->sync($colorIds);
-            }
-
-            // Create relationships for genders
-            if (!empty($genders)) {
-                $genderIds = Gender::whereIn('old_id', $genders)->pluck('id')->toArray();
-                $product->genders()->sync($genderIds);
-            }
-
-            // Create relationship for leather
-            if ($category->size_id) {
-                $size = Size::where('id', $category->size_id)->first();
-
-                if ($size) {
-                    $product->sizes()->sync([$size->id]);
+                // Create relationships for colors
+                if (!empty($colors)) {
+                    $colorIds = Color::whereIn('old_id', $colors)->pluck('id')->toArray();
+                    $product->colors()->sync($colorIds);
                 }
-            }
 
-            // Create relationship for leather
-            if ($leatherId) {
-                $leather = Leather::where('old_id', $leatherId)->first();
-                if ($leather) {
-                    $product->leathers()->sync([$leather->id]);
+                // Create relationships for genders
+                if (!empty($genders)) {
+                    $genderIds = Gender::whereIn('old_id', $genders)->pluck('id')->toArray();
+                    $product->genders()->sync($genderIds);
                 }
-            }
 
-            // Import product images
-            if ($photosJson) {
-                $photos = json_decode($photosJson, true);
-                if (is_array($photos)) {
-                    // Delete old images
-                    $product->images()->delete();
+                // Create relationship for leather
+                if ($category->size_id) {
+                    $size = Size::where('id', $category->size_id)->first();
 
-                    // Add new images
-                    foreach ($photos as $index => $photoPath) {
-                        // Convert backslashes to forward slashes
-                        $photoPath = str_replace('\\', '/', $photoPath);
-
-                        ProductImage::create([
-                            'product_id' => $product->id,
-                            'path' => $photoPath,
-                            'alt' => $name ?? '',
-                            'sort_order' => $index,
-                            'is_main' => ($index === 0),
-                        ]);
+                    if ($size) {
+                        $product->sizes()->sync([$size->id]);
                     }
                 }
+
+                // Create relationship for leather
+                if ($leatherId) {
+                    $leather = Leather::where('old_id', $leatherId)->first();
+                    if ($leather) {
+                        $product->leathers()->sync([$leather->id]);
+                    }
+                }
+
+                // Import product images
+//            if ($photosJson) {
+//                $photos = json_decode($photosJson, true);
+//                if (is_array($photos)) {
+//                    // Delete old images
+//                    $product->images()->delete();
+//
+//                    // Add new images
+//                    foreach ($photos as $index => $photoPath) {
+//                        // Convert backslashes to forward slashes
+//                        $photoPath = str_replace('\\', '/', $photoPath);
+//
+//                        ProductImage::create([
+//                            'product_id' => $product->id,
+//                            'path' => $photoPath,
+//                            'alt' => $name ?? '',
+//                            'sort_order' => $index,
+//                            'is_main' => ($index === 0),
+//                        ]);
+//                    }
+//                }
+//            }
+            } catch (\Exception $e) {
+//                dd($data);
+                dd($e);
             }
 
 

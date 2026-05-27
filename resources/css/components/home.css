@@ -122,4 +122,66 @@
     font-style: normal;
     color:#b0774d;
 }
+.b-sep {
+    background: url(../../images/home/page-separate.png);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+}
+.new-product-text {
+    height: 300px;
+    width: 30%;
+    background: #f6f2ef;
+}
+.new-product-text h2 {
+    font-family: 'Wix Madefor Display', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: #292824;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+    margin-bottom: 14px;
+    text-align: center;
+    margin-top: 30px;
+}
 
+.new-product-text span {
+    display: block;
+    margin: 20px auto;
+    padding: 30px 50px;
+    font-size: 17px;
+    font-family: "Inter", sans-serif;
+}
+
+.new-product-banner {
+    background: url(../../images/home/new-catalogue.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 70%;
+}
+
+.new-product-text .more-link {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+    padding: 10px 20px;
+    border: 1px solid #2c1c12;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    background: #2c1c12;
+    margin-left: 50px;
+}
+
+
+/*.swiper-slide {*/
+/*    background: yellow;*/
+/*}*/
+.swiper-slide {
+    max-height: 235px;
+    max-width: 210px;
+}

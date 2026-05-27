@@ -16,4 +16,28 @@ class EditTeaser extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function afterSave(): void
+    {
+        $data = $this->form->getState();
+
+        foreach (['uk', 'ru'] as $locale) {
+            $this->record->translations()->updateOrCreate(
+                ['locale' => $locale],
+                [
+                    'promo_text' => $data["promo_text_{$locale}"] ?? null,
+                ]
+            );
+        }
+    }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        foreach (['uk', 'ru'] as $locale) {
+            $translation = $this->record->translations()->where('locale', $locale)->first();
+            $data["promo_text_{$locale}"] = $translation?->promo_text;
+        }
+
+        return $data;
+    }
 }

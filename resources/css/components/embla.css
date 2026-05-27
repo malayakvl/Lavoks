@@ -215,3 +215,115 @@
 .embla__slide__img {
     user-select: none;
 }
+.embla__button--prev, .embla__button--next {
+    display: none;
+}
+
+/* Product carousel styles */
+.embla__slide__products {
+    padding: 2rem;
+    color: #ffffff;
+    height: var(--slide-height);
+    display: flex;
+    flex-direction: column;
+}
+
+.embla__slide__products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    overflow-y: auto;
+}
+
+.embla__slide__product-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+.embla__slide__product-card:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.embla__slide__product-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.embla__slide__product-info {
+    padding: 1rem;
+}
+
+.embla__slide__product-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.embla__slide__product-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffd700;
+    margin: 0;
+}
+
+/* Category carousel styles */
+.embla__slide__categories {
+    padding: 2rem;
+    color: #ffffff;
+    height: var(--slide-height);
+    display: flex;
+    flex-direction: column;
+}
+
+.embla__slide__categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    overflow-y: auto;
+}
+
+.embla__slide__category-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+}
+
+.embla__slide__category-card:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.embla__slide__category-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.embla__slide__category-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+}
+

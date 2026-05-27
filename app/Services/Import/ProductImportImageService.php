@@ -3,6 +3,7 @@
 namespace App\Services\Import;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
 
@@ -56,8 +57,9 @@ class ProductImportImageService
         if (Storage::exists($localPath)) {
             return $localPath;
         }
-
         $this->download($url, $localPath);
+
+
 
         return $localPath;
     }
@@ -67,6 +69,9 @@ class ProductImportImageService
         try {
             $directory = dirname($localPath);
 
+            echo "   📥 Downloading: " . basename($url) . "\n";
+            echo "      To: {$localPath}\n";
+
             Storage::makeDirectory($directory);
 
             $response = Http::timeout(30)
@@ -74,6 +79,7 @@ class ProductImportImageService
                 ->get($url);
 
             if (!$response->successful()) {
+                echo "      ❌ Failed (status: {$response->status()})\n";
                 logger()->warning("Failed image download", [
                     'url' => $url,
                     'status' => $response->status()
@@ -83,8 +89,11 @@ class ProductImportImageService
 
 //            Storage::put($localPath, $response->body());
             Storage::disk('public')->put($localPath, $response->body());
+            
+            echo "      ✅ Downloaded successfully\n";
 
         } catch (\Throwable $e) {
+            echo "      ❌ Exception: " . $e->getMessage() . "\n";
             logger()->error("Image download exception", [
                 'url' => $url,
                 'error' => $e->getMessage()
@@ -100,16 +109,16 @@ class ProductImportImageService
 
         return str_replace('\\/', '/', $path);
     }
-    public function import(int $categoryId = 0)
+    public function import()
     {
-        $products = Product::where('category_id', $categoryId)->get();
-        foreach ($products as $i => $product) {
-            // Получаем все изображения продукта
-            $images = $product->images;
-//            $this->syncProductMainImage($product);
-
-            $this->syncProductImages($product);
-        }
+        ProductImage::where('is_copied', false)->where('is_main', true)->chunk(100, function ($productImages) {
+            foreach ($productImages as $productImage) {
+                // создаем папку и копируем туда фоту
+                $this->syncProductMainImage($productImage->product);
+                $productImage->is_copied = true;
+                $productImage->save();
+            }
+        });
 
         return true;
     }

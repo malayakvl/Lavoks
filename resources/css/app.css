@@ -70,14 +70,71 @@ body {
 .embla__slide__text p {
     margin: 10px 0;
 }
+/*.white-content {*/
+/*    background-color: #ece4e0;*/
+/*    width: 100%;*/
+/*    padding: 20px 30px;*/
+/*}*/
 .white-content {
-    background-color: #ece4e0;
+    position: relative;
     width: 100%;
-    padding: 20px 30px;
+    padding: 24px 32px;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(255,252,248,.75),
+            rgba(232,220,207,.96) 42%,
+            rgba(222,208,194,1) 100%
+        );
+
+    overflow: hidden;
+}
+.white-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(255,255,255,.18),
+            transparent 40%
+        );
+
+    opacity: .9;
 }
 .white-content h1 {
-    color: #37302d;
-    font-size: 22px;
-    font-weight: bold;
-    font-family: 'Comfortaa', sans-serif;
+    /*font-family: "Inter", sans-serif;*/
+    font-family: 'Wix Madefor Display', sans-serif;
+
+    font-size: 26px;
+    font-weight: 600;
+
+    color: #292824;
+
+    line-height: 1.2;
+
+    letter-spacing: 0.2px;
+
+    margin-bottom: 14px;
+}
+.white-content h1::after {
+    content: "";
+    display: block;
+
+    width: 100%;   /* ВОТ КЛЮЧ */
+    height: 1px;
+
+
+    margin-top: 6px;
+
+    background: linear-gradient(
+        to right,
+        rgba(115, 51, 8, 0.9),
+        transparent
+    );
+
+    opacity: 0.8;
 }

@@ -527,7 +527,7 @@ header {
 }
 .empty-cart {
     position: absolute;
-    top: 11px;
+    top: 8px;
     left: 85px;
     font-family: 'Montserrat', sans-serif;
     color: #b48b62;

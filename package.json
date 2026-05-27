@@ -41,6 +41,7 @@
         "react-redux": "^9.3.0",
         "redux-logger": "^3.0.6",
         "redux-promise": "^0.6.0",
+        "swiper": "^12.1.4",
         "ziggy-js": "^2.6.2"
     }
 }

@@ -39,7 +39,10 @@ class Product extends Model
 
         'new_model',
         'new_leather',
-        'new_leather_color'
+        'new_leather_color',
+
+        'created_at_old',
+        'updated_at_old'
     ];
 
     protected $casts = [
@@ -75,9 +78,16 @@ class Product extends Model
             ->where('locale', app()->getLocale());
     }
 
-    public function title()
+    public function title(): ?string
     {
         return $this->translations()->where('locale', app()->getLocale())->first()?->title
+            ?? $this->translations()->first()?->title
+            ?? '';
+    }
+
+    public function getTitleAttribute(): ?string
+    {
+        return $this->currentTranslation?->title
             ?? $this->translations()->first()?->title
             ?? '';
     }

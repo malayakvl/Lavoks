@@ -51,7 +51,7 @@ class CategoryImportService
                     'percent_change' => (float)($data[27] ?? 0),
                     'fix_price' => (bool)($data[28] ?? 0),
                     'discount'  => (float)($data[29] ?? 0),
-                    'images' => $oldId.'.jpg'
+                    'image' => $oldId.'.jpg'
                 ]
             );
         }

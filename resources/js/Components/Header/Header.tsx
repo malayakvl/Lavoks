@@ -239,32 +239,40 @@ export default function Header({ categories }: Props) {
                                                 {/* Правая контентная область со слайдером - 2 ряда по 3 карточки */}
                                                 <div className="dropdown-carousel-wrapper">
                                                     <h3 className="carousel-section-title">Моделі</h3>
-                                                    
+
                                                     {/* Слайдер */}
                                                     <ul className="dropdown-carousel-track">
                                                         {(() => {
                                                             const slides = [];
-                                                            const itemsPerSlide = 9;
+                                                            const maxItemsPerSlide = 9;
                                                             const totalItems = cat.children.length;
-                                                            const slideCount = Math.ceil(totalItems / itemsPerSlide);
-                                                            const remainder = totalItems % itemsPerSlide;
-                                                            
-                                                            // Если остаток маленький (<3), убираем последний слайд и распределяем
-                                                            const actualSlideCount = (remainder > 0 && remainder < 3 && slideCount > 1)
-                                                                ? slideCount - 1
-                                                                : slideCount;
-                                                            
-                                                            const baseItemsPerSlide = Math.floor(totalItems / actualSlideCount);
-                                                            const extraItems = totalItems % actualSlideCount;
-                                                            
+
+                                                            // Розподіляємо по 9 елементів на слайд
                                                             let currentIndex = 0;
-                                                            for (let i = 0; i < actualSlideCount; i++) {
-                                                                // Добавляем +1 элемент к последним слайдам
-                                                                const slideSize = baseItemsPerSlide + (i >= actualSlideCount - extraItems ? 1 : 0);
+                                                            let slideIndex = 0;
+
+                                                            while (currentIndex < totalItems) {
+                                                                const remainingItems = totalItems - currentIndex;
+
+                                                                // Якщо залишається 1 елемент і це не перший слайд - додаємо на попередній
+                                                                if (remainingItems === 1 && slideIndex > 0) {
+                                                                    // Останній елемент вже доданий на попередній слайд (дивись нижче)
+                                                                    break;
+                                                                }
+
+                                                                // Беремо максимум 9 елементів
+                                                                let slideSize = Math.min(maxItemsPerSlide, remainingItems);
+
+                                                                // Якщо після цього залишиться 1 елемент - беремо 10 замість 9
+                                                                if (remainingItems - maxItemsPerSlide === 1 && remainingItems > maxItemsPerSlide) {
+                                                                    slideSize = maxItemsPerSlide + 1;
+                                                                }
+
                                                                 const slideItems = cat.children.slice(currentIndex, currentIndex + slideSize);
                                                                 currentIndex += slideSize;
+
                                                                 slides.push(
-                                                                    <li key={i} className="carousel-slide">
+                                                                    <li key={slideIndex} className="carousel-slide">
                                                                         {slideItems.map((child) => (
                                                                             <ListItem
                                                                                 key={child.id}
@@ -276,8 +284,10 @@ export default function Header({ categories }: Props) {
                                                                         ))}
                                                                     </li>
                                                                 );
+
+                                                                slideIndex++;
                                                             }
-                                                            
+
                                                             return slides;
                                                         })()}
                                                     </ul>
@@ -287,11 +297,27 @@ export default function Header({ categories }: Props) {
                                                         <div className="dropdown-pagination-dots">
                                                             {(() => {
                                                                 const totalItems = cat.children.length;
-                                                                const remainder = totalItems % 9;
-                                                                const slideCount = remainder > 0 && remainder < 3 && Math.ceil(totalItems / 9) > 1 
-                                                                    ? Math.ceil(totalItems / 9) - 1 
-                                                                    : Math.ceil(totalItems / 9);
-                                                                
+                                                                const maxItemsPerSlide = 9;
+
+                                                                // Рахуємо скільки буде слайдів з новою логікою
+                                                                let slideCount = 0;
+                                                                let currentIndex = 0;
+                                                                while (currentIndex < totalItems) {
+                                                                    const remainingItems = totalItems - currentIndex;
+
+                                                                    if (remainingItems === 1 && slideCount > 0) {
+                                                                        break;
+                                                                    }
+
+                                                                    let slideSize = Math.min(maxItemsPerSlide, remainingItems);
+                                                                    if (remainingItems - maxItemsPerSlide === 1 && remainingItems > maxItemsPerSlide) {
+                                                                        slideSize = maxItemsPerSlide + 1;
+                                                                    }
+
+                                                                    currentIndex += slideSize;
+                                                                    slideCount++;
+                                                                }
+
                                                                 return Array.from({ length: slideCount }).map((_, index) => (
                                                                     <button
                                                                         key={index}
@@ -300,11 +326,11 @@ export default function Header({ categories }: Props) {
                                                                             const track = e.currentTarget.closest('.dropdown-carousel-wrapper').querySelector('.dropdown-carousel-track');
                                                                             if (track) {
                                                                                 const slideWidth = track.offsetWidth;
-                                                                                track.scrollTo({ 
-                                                                                    left: slideWidth * index, 
-                                                                                    behavior: 'smooth' 
+                                                                                track.scrollTo({
+                                                                                    left: slideWidth * index,
+                                                                                    behavior: 'smooth'
                                                                                 });
-                                                                                
+
                                                                                 // Обновляем активную точку
                                                                                 track.closest('.dropdown-carousel-wrapper')
                                                                                     .querySelectorAll('.pagination-dot')

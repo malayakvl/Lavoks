@@ -39,7 +39,7 @@ class ProductImportRuLangService
 
     public function import(int $limit = 0)
     {
-        $sql = file_get_contents(storage_path('legacy/product_translations.sql'));
+        $sql = file_get_contents(storage_path('legacy/translationsProducts.sql'));
 
         // 1. вырезаем только VALUES блок
         $start = strpos($sql, 'VALUES');
@@ -92,7 +92,7 @@ class ProductImportRuLangService
             $translation = ProductTranslation::where('product_id', $product->id)
                 ->where('locale', 'ru')
                 ->first();
-            
+
             if (!$translation) {
                 $translation = new ProductTranslation();
                 $translation->product_id = $product->id;

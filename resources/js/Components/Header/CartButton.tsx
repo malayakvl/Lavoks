@@ -14,7 +14,7 @@ export function CartButton({ count = 0, onClick }: Props) {
             <img
                 src="/images/header/cart.svg"
                 alt="cart"
-                className="w-[42px] h-[42px] mt-[7px] ml-[10px]"
+                className="w-[42px] h-[42px] mt-[4px] ml-[10px]"
             />
 
             <div className="text-left leading-tight">

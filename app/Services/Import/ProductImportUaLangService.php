@@ -39,7 +39,7 @@ class ProductImportUaLangService
 
     public function import(int $limit = 0)
     {
-        $sql = file_get_contents(storage_path('legacy/products.sql'));
+        $sql = file_get_contents(storage_path('legacy/productsFull.sql'));
 
         // 1. вырезаем только VALUES блок
         $start = strpos($sql, 'VALUES');
@@ -74,7 +74,6 @@ class ProductImportUaLangService
                 \Log::error("Failed to find product with old_id: {$oldProductId}");
                 continue;
             }
-//            dd($data[4]);exit;
             ProductTranslation::updateOrCreate(
                 [
                     'product_id' => $product->id,

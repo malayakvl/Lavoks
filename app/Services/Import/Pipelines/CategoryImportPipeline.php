@@ -27,7 +27,7 @@ class CategoryImportPipeline
 //        app(CategoryImportRuLangService::class)->import();
 
         // 3. INSERT AND CONVERT IMAGES
-        app(CategoryImportImageService::class)->import();
+//        app(CategoryImportImageService::class)->import();
 
     }
 }
