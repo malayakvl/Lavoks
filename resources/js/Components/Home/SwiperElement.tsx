@@ -1,15 +1,12 @@
 import { useEffect, useRef } from "react";
 import Swiper from "swiper";
-import { Navigation, Pagination, FreeMode } from "swiper/modules"; // Добавили FreeMode
+import { Navigation, Pagination, FreeMode } from "swiper/modules";
+import type { SwiperOptions } from "swiper/types";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/free-mode"; // Не забываем стили для него
-
-interface SwiperElementProps {
-    elements?: any[]; // Делаем необязательным, пока не используем
-}
+import "swiper/css/free-mode";
 
 export default function SwiperElement() {
     const swiperContainerRef = useRef<HTMLDivElement>(null);
@@ -17,16 +14,14 @@ export default function SwiperElement() {
     useEffect(() => {
         if (!swiperContainerRef.current) return;
 
-        const swiperInstance = new Swiper(swiperContainerRef.current, {
-            modules: [Navigation, Pagination, FreeMode] as any,
+        const swiperParams: { observer: boolean; observeParents: boolean; navigation: { nextEl: string; prevEl: string }; pagination: { el: string; clickable: boolean }; freeMode: boolean; grabCursor: boolean; slidesPerView: string; modules: ((options: { params: Swiper["params"]; swiper: Swiper; extendParams: (obj: { [p: string]: any }) => void; on: Swiper["on"]; once: Swiper["once"]; off: Swiper["off"]; emit: Swiper["emit"] }) => void)[]; spaceBetween: number } = {
+            modules: [Navigation, Pagination, FreeMode],
             slidesPerView: "auto",
             spaceBetween: 16,
             grabCursor: true,
             freeMode: true,
-
             observer: true,
             observeParents: true,
-
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
@@ -35,7 +30,9 @@ export default function SwiperElement() {
                 el: ".swiper-pagination",
                 clickable: true,
             },
-        });
+        };
+
+        const swiperInstance = new Swiper(swiperContainerRef.current, swiperParams);
 
         // На всякий случай пинаем Swiper обновиться чуть-чуть позже
         setTimeout(() => {
@@ -56,138 +53,66 @@ export default function SwiperElement() {
                   а реальную ширину (например, w-[280px]) задаем блоку ВНУТРИ
                 */}
                 <div className="swiper-slide !w-auto">
-                    {/* Карточка 1: Гаманці */}
-                    <a href="#" className="category-promo-card group category-promo-card-1">
-                        <div className="category-promo-img-wrap">
+                    <a href="#" className="category-card group">
+
+                        {/* IMAGE */}
+                        <div className="category-card-image">
+                            <div className="category-card-glow" />
+
                             <img
                                 src="/storage/categories/cut/sumki-tout-paket-zi-skiri.webp"
                                 alt="Гаманці"
-                                className="category-promo-img"
+                                className="category-card-img"
                             />
                         </div>
-                        <div className="category-promo-info">
-                            <div className="flex items-center gap-2 text-[#e3d2c4] group-hover:text-[#b89742] transition-colors">
-                                {/* Твоя кастомная иконка или SVG кошелька */}
-                                <span className="text-sm font-semibold tracking-wide">Гаманці</span>
+
+                        {/* INFO */}
+                        <div className="category-card-info">
+                            <div className="swiper-title">Гаманці</div>
+
+                            <div className="category-card-meta">
+                                24 моделі · handmade
                             </div>
-                            <span className="category-promo-link">Переглянути &rarr;</span>
+
+                            <div className="category-card-cta">
+                                Переглянути →
+                            </div>
                         </div>
+
                     </a>
                 </div>
                 <div className="swiper-slide !w-auto">
-                    {/* Карточка 1: Гаманці */}
-                    <a href="#" className="category-promo-card group category-promo-card-1">
-                        <div className="category-promo-img-wrap">
+                    <a href="#" className="category-card group">
+
+                        {/* IMAGE */}
+                        <div className="category-card-image">
+                            <div className="category-card-glow" />
+
                             <img
-                                src="/storage/categories/cut/sumki-tout-paket-zi-skiri.webp"
+                                src="/storage/categories/cut/gamanci-ultra.webp"
                                 alt="Гаманці"
-                                className="category-promo-img"
+                                className="category-card-img"
                             />
                         </div>
-                        <div className="category-promo-info">
-                            <div className="flex items-center gap-2 text-[#e3d2c4] group-hover:text-[#b89742] transition-colors">
-                                {/* Твоя кастомная иконка или SVG кошелька */}
-                                <span className="text-sm font-semibold tracking-wide">Гаманці</span>
+
+                        {/* INFO */}
+                        <div className="category-card-info">
+                            <div className="swiper-title">Гаманці</div>
+
+                            <div className="category-card-meta">
+                                24 моделі · handmade
                             </div>
-                            <span className="category-promo-link">Переглянути &rarr;</span>
+
+                            <div className="category-card-cta">
+                                Переглянути →
+                            </div>
                         </div>
+
                     </a>
                 </div>
-                <div className="swiper-slide !w-auto">
-                    {/* Карточка 1: Гаманці */}
-                    <a href="#" className="category-promo-card group category-promo-card-1">
-                        <div className="category-promo-img-wrap">
-                            <img
-                                src="/storage/categories/cut/sumki-tout-paket-zi-skiri.webp"
-                                alt="Гаманці"
-                                className="category-promo-img"
-                            />
-                        </div>
-                        <div className="category-promo-info">
-                            <div className="flex items-center gap-2 text-[#e3d2c4] group-hover:text-[#b89742] transition-colors">
-                                {/* Твоя кастомная иконка или SVG кошелька */}
-                                <span className="text-sm font-semibold tracking-wide">Гаманці</span>
-                            </div>
-                            <span className="category-promo-link">Переглянути &rarr;</span>
-                        </div>
-                    </a>
-                </div>
-                <div className="swiper-slide !w-auto">
-                    {/* Карточка 1: Гаманці */}
-                    <a href="#" className="category-promo-card group category-promo-card-1">
-                        <div className="category-promo-img-wrap">
-                            <img
-                                src="/storage/categories/cut/sumki-tout-paket-zi-skiri.webp"
-                                alt="Гаманці"
-                                className="category-promo-img"
-                            />
-                        </div>
-                        <div className="category-promo-info">
-                            <div className="flex items-center gap-2 text-[#e3d2c4] group-hover:text-[#b89742] transition-colors">
-                                {/* Твоя кастомная иконка или SVG кошелька */}
-                                <span className="text-sm font-semibold tracking-wide">Гаманці</span>
-                            </div>
-                            <span className="category-promo-link">Переглянути &rarr;</span>
-                        </div>
-                    </a>
-                </div>
-                <div className="swiper-slide !w-auto">
-                    {/* Карточка 1: Гаманці */}
-                    <a href="#" className="category-promo-card group category-promo-card-1">
-                        <div className="category-promo-img-wrap">
-                            <img
-                                src="/storage/categories/cut/sumki-tout-paket-zi-skiri.webp"
-                                alt="Гаманці"
-                                className="category-promo-img"
-                            />
-                        </div>
-                        <div className="category-promo-info">
-                            <div className="flex items-center gap-2 text-[#e3d2c4] group-hover:text-[#b89742] transition-colors">
-                                {/* Твоя кастомная иконка или SVG кошелька */}
-                                <span className="text-sm font-semibold tracking-wide">Гаманці</span>
-                            </div>
-                            <span className="category-promo-link">Переглянути &rarr;</span>
-                        </div>
-                    </a>
-                </div>
-                <div className="swiper-slide !w-auto">
-                    {/* Карточка 1: Гаманці */}
-                    <a href="#" className="category-promo-card group category-promo-card-1">
-                        <div className="category-promo-img-wrap">
-                            <img
-                                src="/storage/categories/cut/sumki-tout-paket-zi-skiri.webp"
-                                alt="Гаманці"
-                                className="category-promo-img"
-                            />
-                        </div>
-                        <div className="category-promo-info">
-                            <div className="flex items-center gap-2 text-[#e3d2c4] group-hover:text-[#b89742] transition-colors">
-                                {/* Твоя кастомная иконка или SVG кошелька */}
-                                <span className="text-sm font-semibold tracking-wide">Гаманці</span>
-                            </div>
-                            <span className="category-promo-link">Переглянути &rarr;</span>
-                        </div>
-                    </a>
-                </div>
-                <div className="swiper-slide !w-auto">
-                    {/* Карточка 1: Гаманці */}
-                    <a href="#" className="category-promo-card group category-promo-card-1">
-                        <div className="category-promo-img-wrap">
-                            <img
-                                src="/storage/categories/cut/sumki-tout-paket-zi-skiri.webp"
-                                alt="Гаманці"
-                                className="category-promo-img"
-                            />
-                        </div>
-                        <div className="category-promo-info">
-                            <div className="flex items-center gap-2 text-[#e3d2c4] group-hover:text-[#b89742] transition-colors">
-                                {/* Твоя кастомная иконка или SVG кошелька */}
-                                <span className="text-sm font-semibold tracking-wide">Гаманці</span>
-                            </div>
-                            <span className="category-promo-link">Переглянути &rarr;</span>
-                        </div>
-                    </a>
-                </div>
+
+
+
 
 
 

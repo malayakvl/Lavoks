@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class LeatherResource extends Resource
 {
@@ -20,9 +21,7 @@ class LeatherResource extends Resource
 
 //    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
     protected static string|BackedEnum|null $navigationIcon = Heroicon::LightBulb;
-    protected static ?int $navigationSort = 4;
-
-//    protected static string|null|\UnitEnum $navigationGroup = 'Характеристики';    protected static ?string $recordTitleAttribute = 'Типи шкіри';
+    protected static ?int $navigationSort = 6;
 
     public static function getNavigationLabel(): string
     {

@@ -11,28 +11,15 @@ import {
 import { DotButton, useDotButton } from './EmblaCarouselDotButton'
 import { Link } from '@inertiajs/react'
 
-interface Teaser {
+export interface Teaser {
     id: number;
     images: string | null;
     caption: string | null;
+    promo_text?: string | null;
     youtube_code: string | null;
     page_url: string | null;
     category_id: number | null;
-    carousel_type: 'image' | 'product' | 'category';
-    product_ids: number[] | null;
-    category_ids: number[] | null;
-    products?: Array<{
-        id: number;
-        name: string;
-        price: number;
-        image: string | null;
-        code: string;
-    }>;
-    carousel_categories?: Array<{
-        id: number;
-        title: string;
-        image: string | null;
-    }>;
+    carousel_type?: 'image' | 'product' | 'category';
 }
 
 type PropType = {
@@ -78,85 +65,32 @@ const EmblaCarousel = (props: PropType) => {
                 <div className="embla__container">
                     {teasersWithImages.map((teaser) => (
                         <div className="embla__slide" key={teaser.id}>
-                            {teaser.carousel_type === 'image' && (
-                                <>
-                                    <img
-                                        className="embla__slide__img"
-                                        src={`/storage/${teaser.images}`}
-                                        alt={teaser.caption || 'Teaser slide'}
-                                    />
-                                    <div className="embla__slide__overlay">
-                                        <div className="embla__slide__content">
-                                            {teaser.caption && (
-                                                <h2 className="embla__slide__title">{teaser.caption}</h2>
-                                            )}
-                                            <span className="embla__slide__text">
-                                                <p>Шкіряний гаманець для чоловіків і жінок - це не тільки практична та довговічна річ, але й модний аксесуар. </p>
-                                                <p>Зручний і стильний гаманець ручної роботи з натуральної шкіри буде предметом захоплення оточуючих і елементом стилю його власника.</p>
-                                            </span>
-                                            {teaser.category_id && (
-                                                <Link
-                                                    href={`/categories/${teaser.category_id}`}
-                                                    className="embla__slide__button"
-                                                >
-                                                    Перейти
-                                                </Link>
-                                            )}
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                            
-                            {teaser.carousel_type === 'product' && teaser.products && (
-                                <div className="embla__slide__products">
-                                    <h2 className="embla__slide__title">{teaser.caption}</h2>
-                                    <div className="embla__slide__products-grid">
-                                        {teaser.products.map((product) => (
-                                            <Link
-                                                key={product.id}
-                                                href={`/products/${product.id}`}
-                                                className="embla__slide__product-card"
-                                            >
-                                                {product.image && (
-                                                    <img
-                                                        src={`/storage/${product.image}`}
-                                                        alt={product.name}
-                                                        className="embla__slide__product-image"
-                                                    />
-                                                )}
-                                                <div className="embla__slide__product-info">
-                                                    <h3 className="embla__slide__product-name">{product.name}</h3>
-                                                    <p className="embla__slide__product-price">{product.price} грн</p>
-                                                </div>
-                                            </Link>
-                                        ))}
-                                    </div>
+                            <img
+                                className="embla__slide__img"
+                                src={`/storage/${teaser.images}`}
+                                alt={teaser.caption || 'Teaser slide'}
+                            />
+                            <div className="embla__slide__overlay">
+                                <div className="embla__slide__content">
+                                    {teaser.caption && (
+                                        <h2 className="embla__slide__title">{teaser.caption}</h2>
+                                    )}
+                                    {teaser.promo_text && (
+                                        <div
+                                            className="embla__slide__text"
+                                            dangerouslySetInnerHTML={{ __html: teaser.promo_text }}
+                                        />
+                                    )}
+                                    {teaser.category_id && (
+                                        <Link
+                                            href={`/categories/${teaser.category_id}`}
+                                            className="embla__slide__button"
+                                        >
+                                            Перейти
+                                        </Link>
+                                    )}
                                 </div>
-                            )}
-                            
-                            {teaser.carousel_type === 'category' && teaser.carousel_categories && (
-                                <div className="embla__slide__categories">
-                                    <h2 className="embla__slide__title">{teaser.caption}</h2>
-                                    <div className="embla__slide__categories-grid">
-                                        {teaser.carousel_categories.map((category) => (
-                                            <Link
-                                                key={category.id}
-                                                href={`/categories/${category.id}`}
-                                                className="embla__slide__category-card"
-                                            >
-                                                {category.image && (
-                                                    <img
-                                                        src={`/storage/${category.image}`}
-                                                        alt={category.title}
-                                                        className="embla__slide__category-image"
-                                                    />
-                                                )}
-                                                <h3 className="embla__slide__category-name">{category.title}</h3>
-                                            </Link>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                            </div>
                         </div>
                     ))}
                 </div>

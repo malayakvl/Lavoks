@@ -13,6 +13,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use App\Models\Teaser;
+use UnitEnum;
 
 class TeaserResource extends Resource
 {
@@ -21,6 +22,8 @@ class TeaserResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Camera;
 
     protected static ?string $recordTitleAttribute = 'images';
+
+    protected static ?int $navigationSort = 2;
 
     public static function getNavigationLabel(): string
     {

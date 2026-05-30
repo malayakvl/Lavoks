@@ -16,14 +16,14 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use UnitEnum;
 
 class ColorsResource extends Resource
 {
     protected static ?string $model = Color::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSwatch;
-//    protected static string|null|\UnitEnum $navigationGroup = 'Характеристики';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 5;
 
     public static function getNavigationLabel(): string
     {

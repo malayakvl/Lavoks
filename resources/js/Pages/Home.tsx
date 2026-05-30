@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import EmblaCarousel from './EmblaCarousel'
+import EmblaCarousel, { Teaser } from './EmblaCarousel'
 import { EmblaOptionsType } from 'embla-carousel'
 import { ProductCard } from "../Components/Product/ProductCard";
 import SwiperElement from "../Components/Home/SwiperElement";
@@ -8,14 +8,6 @@ import SwiperElement from "../Components/Home/SwiperElement";
 
 const OPTIONS: EmblaOptionsType = { loop: true, duration: 30 }
 
-interface Teaser {
-    id: number;
-    images: string | null;
-    caption: string | null;
-    youtube_code: string | null;
-    page_url: string | null;
-    category_id: number | null;
-}
 interface Product {
     id: number;
     name: string | null;

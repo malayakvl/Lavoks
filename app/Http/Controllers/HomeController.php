@@ -14,54 +14,22 @@ class HomeController extends Controller
     {
         // Получаем активные тизеры для карусели
         $teasers = Teaser::where('active', 1)
+            ->with(['currentTranslation'])
             ->orderBy('position', 'asc')
             ->get()
             ->map(function ($teaser) {
-                $data = [
+                return [
                     'id' => $teaser->id,
-                    'images' => $teaser->image, // В БД поле называется 'image'
+                    'images' => $teaser->image,
                     'caption' => $teaser->caption,
+                    'promo_text' => $teaser->currentTranslation?->promo_text,
                     'youtube_code' => $teaser->youtube_code,
                     'page_url' => $teaser->page_url,
                     'category_id' => $teaser->category_id,
                     'carousel_type' => $teaser->carousel_type ?? 'image',
-                    'product_ids' => $teaser->product_ids,
-                    'category_ids' => $teaser->category_ids,
                 ];
-
-                // Если тип карусели - продукты, загружаем данные о продуктах
-                if ($teaser->carousel_type === 'product' && $teaser->product_ids) {
-                    $data['products'] = Product::whereIn('id', $teaser->product_ids)
-                        ->with(['currentTranslation', 'leathers.currentTranslation'])
-                        ->get()
-                        ->map(function ($product) {
-                            return [
-                                'id' => $product->id,
-                                'name' => $product->currentTranslation?->title ?? 'Без назви',
-                                'price' => $product->price,
-                                'image' => $product->main_image,
-                                'code' => $product->code,
-                            ];
-                        });
-                }
-
-                // Если тип карусели - категории, загружаем данные о категориях
-                if ($teaser->carousel_type === 'category' && $teaser->category_ids) {
-                    $data['carousel_categories'] = Category::whereIn('id', $teaser->category_ids)
-                        ->with(['translations'])
-                        ->get()
-                        ->map(function ($category) {
-                            return [
-                                'id' => $category->id,
-                                'title' => $category->title,
-                                'image' => $category->image,
-                            ];
-                        });
-                }
-
-                return $data;
             });
-
+//dd($teasers);exit;
         // находим новинки
         $newProducts = Product::where('active', 1)
             ->where('new_model', 1)

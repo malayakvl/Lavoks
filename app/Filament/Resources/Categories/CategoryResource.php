@@ -22,7 +22,7 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolder;
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 8;
 
 //    public static function getTable(Table $table): Table
 //    {

@@ -30,7 +30,7 @@ body {
 
     /*background-size: cover;*/
 
-    background-image: url('../images/header/textura-2.png');
+    background-image: url('../images/header/new-textura.png');
     background-color: rgba(18,15,12, 0.5);
     background-blend-mode: multiply; /* Или overlay, в зависимости от исходника */
 
