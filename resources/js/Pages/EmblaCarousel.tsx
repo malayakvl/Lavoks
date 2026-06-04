@@ -65,6 +65,7 @@ const EmblaCarousel = (props: PropType) => {
                 <div className="embla__container">
                     {teasersWithImages.map((teaser) => (
                         <div className="embla__slide" key={teaser.id}>
+
                             <img
                                 className="embla__slide__img"
                                 src={`/storage/${teaser.images}`}

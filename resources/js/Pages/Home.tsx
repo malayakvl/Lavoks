@@ -17,11 +17,11 @@ interface Product {
 
 interface HomeProps {
     teasers: Teaser[];
-    newProducts: Product[]
+    newProducts: Product[],
+    carouselItems: any[];
 }
 
-export default function Home({ teasers, newProducts, updatedProducts }: HomeProps) {
-
+export default function Home({ teasers, newProducts, updatedProducts, carouselItems }: HomeProps) {
     return (
         <AuthenticatedLayout
             header={<h1 className="text-xl font-semibold">Home</h1>}
@@ -31,9 +31,9 @@ export default function Home({ teasers, newProducts, updatedProducts }: HomeProp
             <EmblaCarousel teasers={teasers} options={OPTIONS} />
 
             <div className="px-4">
-                <section className="w-full bg-[#15110d] py-0 mt-4 mb-4">
-                    <div className="mx-auto px-6 pt-4 pb-4">
-                        <SwiperElement />
+                <section className="w-full bg-[#15110d] py-0 mt-4 mb-0">
+                    <div className="mx-auto px-6 pt-4 pb-0">
+                        <SwiperElement items={carouselItems} />
 
                         {/* Сетка категорий — 6 колонок на десктопе */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">

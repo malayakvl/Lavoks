@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Swiper from "swiper";
 import { Navigation, Pagination, FreeMode } from "swiper/modules";
 import type { SwiperOptions } from "swiper/types";
@@ -8,9 +8,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/free-mode";
 
-export default function SwiperElement() {
+export default function SwiperElement({ items }: { items: any[] }) {
     const swiperContainerRef = useRef<HTMLDivElement>(null);
-
+console.log(items);
     useEffect(() => {
         if (!swiperContainerRef.current) return;
 
@@ -52,64 +52,96 @@ export default function SwiperElement() {
                 {/* Важно: на swiper-slide вешаем !w-auto,
                   а реальную ширину (например, w-[280px]) задаем блоку ВНУТРИ
                 */}
-                <div className="swiper-slide !w-auto">
-                    <a href="#" className="category-card group">
+                {items.map((item, index) => {
+                    // Transform image path for categories (same as Header)
+                    const imageSrc = item.slidable_type === 'App\\Models\\Category'
+                        ? item.image?.replace('categories/original/', 'categories/cut/')
+                        : item.image;
 
-                        {/* IMAGE */}
-                        <div className="category-card-image">
-                            <div className="category-card-glow" />
+                    return (
+                        <div className="swiper-slide !w-auto" key={index}>
+                            <a href="#" className="category-card group">
 
-                            <img
-                                src="/storage/categories/cut/sumki-tout-paket-zi-skiri.webp"
-                                alt="Гаманці"
-                                className="category-card-img"
-                            />
+                                {/* IMAGE */}
+                                <div className="category-card-image">
+                                    <div class='swiper-img' style={{ backgroundImage: `url(/storage/${imageSrc})`, width: '100%', }}></div>
+                                    {/*<img*/}
+                                    {/*    src={'/storage/' + imageSrc}*/}
+                                    {/*    alt={item.title}*/}
+                                    {/*    className="category-card-img"*/}
+                                    {/*/>*/}
+                                </div>
+
+                                {/* INFO */}
+                                <div className="category-card-info">
+                                    <div className="swiper-title">{item.title}</div>
+                                    <div className="category-card-cta">
+                                        Переглянути →
+                                    </div>
+                                </div>
+
+                            </a>
                         </div>
+                    );
+                })}
+                {/*<div className="swiper-slide !w-auto">*/}
+                {/*    <a href="#" className="category-card group">*/}
 
-                        {/* INFO */}
-                        <div className="category-card-info">
-                            <div className="swiper-title">Гаманці</div>
+                {/*        /!* IMAGE *!/*/}
+                {/*        <div className="category-card-image">*/}
+                {/*            <div className="category-card-glow" />*/}
 
-                            <div className="category-card-meta">
-                                24 моделі · handmade
-                            </div>
+                {/*            <img*/}
+                {/*                src="/storage/categories/cut/sumki-tout-paket-zi-skiri.webp"*/}
+                {/*                alt="Гаманці"*/}
+                {/*                className="category-card-img"*/}
+                {/*            />*/}
+                {/*        </div>*/}
 
-                            <div className="category-card-cta">
-                                Переглянути →
-                            </div>
-                        </div>
+                {/*        /!* INFO *!/*/}
+                {/*        <div className="category-card-info">*/}
+                {/*            <div className="swiper-title">Гаманці</div>*/}
 
-                    </a>
-                </div>
-                <div className="swiper-slide !w-auto">
-                    <a href="#" className="category-card group">
+                {/*            <div className="category-card-meta">*/}
+                {/*                24 моделі · handmade*/}
+                {/*            </div>*/}
 
-                        {/* IMAGE */}
-                        <div className="category-card-image">
-                            <div className="category-card-glow" />
+                {/*            <div className="category-card-cta">*/}
+                {/*                Переглянути →*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
 
-                            <img
-                                src="/storage/categories/cut/gamanci-ultra.webp"
-                                alt="Гаманці"
-                                className="category-card-img"
-                            />
-                        </div>
+                {/*    </a>*/}
+                {/*</div>*/}
+                {/*<div className="swiper-slide !w-auto">*/}
+                {/*    <a href="#" className="category-card group">*/}
 
-                        {/* INFO */}
-                        <div className="category-card-info">
-                            <div className="swiper-title">Гаманці</div>
+                {/*        /!* IMAGE *!/*/}
+                {/*        <div className="category-card-image">*/}
+                {/*            <div className="category-card-glow" />*/}
 
-                            <div className="category-card-meta">
-                                24 моделі · handmade
-                            </div>
+                {/*            <img*/}
+                {/*                src="/storage/categories/cut/gamanci-ultra.webp"*/}
+                {/*                alt="Гаманці"*/}
+                {/*                className="category-card-img"*/}
+                {/*            />*/}
+                {/*        </div>*/}
 
-                            <div className="category-card-cta">
-                                Переглянути →
-                            </div>
-                        </div>
+                {/*        /!* INFO *!/*/}
+                {/*        <div className="category-card-info">*/}
+                {/*            <div className="swiper-title">Гаманці</div>*/}
 
-                    </a>
-                </div>
+                {/*            <div className="category-card-meta">*/}
+                {/*                24 моделі · handmade*/}
+                {/*            </div>*/}
+
+                {/*            <div className="category-card-cta">*/}
+                {/*                Переглянути →*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+
+                {/*    </a>*/}
+                {/*</div>*/}
 
 
 

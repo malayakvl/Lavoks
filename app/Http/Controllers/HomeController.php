@@ -7,12 +7,50 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Teaser;
 use App\Models\Product;
+use App\Models\CarouselItem;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // Получаем активные тизеры для карусели
+        // Получаем активные carousel items из таблицы carousel_items
+        $carouselItems = CarouselItem::where('active', true)
+            ->orderBy('position', 'asc')
+            ->get()
+            ->map(function ($carouselItem) {
+                $data = [
+                    'id' => $carouselItem->id,
+                    'slidable_type' => $carouselItem->slidable_type,
+                    'slidable_id' => $carouselItem->slidable_id,
+                ];
+
+                // Загружаем данные в зависимости от типа
+                if ($carouselItem->slidable_type === 'App\Models\Category') {
+                    $category = Category::with(['currentTranslation'])->find($carouselItem->slidable_id);
+                    if ($category) {
+                        $data['image'] = $category->image;
+                        $data['title'] = $category->currentTranslation?->title ?? 'Без назви';
+                        $data['url'] = "";
+//                        $data['url'] = route('catalog.show', ['slug' => $category->currentTranslation?->slug ?? '']);
+                    }
+                } elseif ($carouselItem->slidable_type === 'App\Models\Product') {
+                    $product = Product::with(['currentTranslation'])->find($carouselItem->slidable_id);
+                    if ($product) {
+                        $data['image'] = $product->main_image;
+                        $data['title'] = $product->currentTranslation?->title ?? 'Без назви';
+                        $data['url'] = "";
+
+//                        $data['url'] = route('product.show', ['slug' => $product->slug ?? '']);
+                    }
+                }
+
+                return $data;
+            })
+            ->filter(function ($item) {
+                return isset($item['image']) && !empty($item['image']);
+            });
+
+        // Получаем активные тизеры для карусели (альтернативный вариант)
         $teasers = Teaser::where('active', 1)
             ->with(['currentTranslation'])
             ->orderBy('position', 'asc')
@@ -29,7 +67,7 @@ class HomeController extends Controller
                     'carousel_type' => $teaser->carousel_type ?? 'image',
                 ];
             });
-//dd($teasers);exit;
+
         // находим новинки
         $newProducts = Product::where('active', 1)
             ->where('new_model', 1)
@@ -103,6 +141,7 @@ class HomeController extends Controller
             'newProducts' => $newProducts,
             'updatedProducts' => $updatedProducts,
             'teasers' => $teasers,
+            'carouselItems' => $carouselItems,
         ]);
     }
 }

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { usePage } from '@inertiajs/react';
 import Header from '../Components/Header/Header';
+import Footer from '../Components/Footer/Footer';
 
 type Props = {
     children: ReactNode;
@@ -22,6 +23,8 @@ export default function AuthenticatedLayout({ children, header }: Props) {
                     {children}
                 </div>
             </main>
+
+            <Footer categories={categories as any[]} />
 
         </div>
     );
