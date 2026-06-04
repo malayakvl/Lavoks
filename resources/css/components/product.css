@@ -251,3 +251,49 @@
     font-weight: 500;
     font-family: 'Comfortaa', sans-serif;
 }
+
+.product-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+
+    padding: 4px 10px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,.85);
+    color: #1a1a1a;
+
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .12em;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 10px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,.75);
+
+    color: #3d2a1a;
+
+    font-size: 10px;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+}
+.new-color {
+    background: rgba(33, 21, 203, 0.75);
+    color: #fff;
+}
+.new-leather {
+    background: rgba(206, 15, 15, 0.75);
+    color:#fff;
+}
+.badge-new {
+    background: rgba(203, 112, 21, 0.75);
+    color:#fff;
+}
